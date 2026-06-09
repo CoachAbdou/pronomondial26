@@ -554,14 +554,14 @@ async function loadLiveLeaderboard() {
 const WORLD_CUP_DATE = new Date('2026-06-11T00:00:00Z').getTime();
 
 const topTeams = [
-      { flag: '🇦🇷', name: 'Argentine', odds: '18%' },
-      { flag: '🇫🇷', name: 'France', odds: '15%' },
-      { flag: '🇧🇷', name: 'Brésil', odds: '12%' },
-      { flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', name: 'Angleterre', odds: '10%' },
-      { flag: '🇪🇸', name: 'Espagne', odds: '9%' },
-      { flag: '🇩🇪', name: 'Allemagne', odds: '8%' },
-      { flag: '🇲🇦', name: 'Maroc', odds: '6%' },
-      { flag: '🇵🇹', name: 'Portugal', odds: '7%' },
+      { flag: 'ar', name: 'Argentine', odds: '18%' },
+      { flag: 'fr', name: 'France', odds: '15%' },
+      { flag: 'br', name: 'Brésil', odds: '12%' },
+      { flag: 'gb-eng', name: 'Angleterre', odds: '10%' },
+      { flag: 'es', name: 'Espagne', odds: '9%' },
+      { flag: 'de', name: 'Allemagne', odds: '8%' },
+      { flag: 'ma', name: 'Maroc', odds: '6%' },
+      { flag: 'pt', name: 'Portugal', odds: '7%' },
     ];
 
     const allMarkets = [
@@ -580,110 +580,110 @@ const topTeams = [
 ];
 
 const groups = {
-  A: [{flag:'🇲🇽',name:'Mexique',rank:15},{flag:'🇿🇦',name:'Afrique du Sud',rank:59},{flag:'🇰🇷',name:'Corée du Sud',rank:22},{flag:'🇨🇿',name:'Tchéquie',rank:36}],
-  B: [{flag:'🇨🇦',name:'Canada',rank:40},{flag:'🇨🇭',name:'Suisse',rank:19},{flag:'🇶🇦',name:'Qatar',rank:45},{flag:'🇧🇦',name:'Bosnie-Herzégovine',rank:57}],
-  C: [{flag:'🇧🇷',name:'Brésil',rank:3},{flag:'🇲🇦',name:'Maroc',rank:14},{flag:'🇭🇹',name:'Haïti',rank:87},{flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',name:'Écosse',rank:52}],
-  D: [{flag:'🇺🇸',name:'États-Unis',rank:11},{flag:'🇵🇾',name:'Paraguay',rank:42},{flag:'🇦🇺',name:'Australie',rank:20},{flag:'🇹🇷',name:'Turquie',rank:26}],
-  E: [{flag:'🇩🇪',name:'Allemagne',rank:6},{flag:'🇨🇼',name:'Curaçao',rank:85},{flag:'🇨🇮',name:"Côte d'Ivoire",rank:38},{flag:'🇪🇨',name:'Équateur',rank:23}],
-  F: [{flag:'🇳🇱',name:'Pays-Bas',rank:8},{flag:'🇯🇵',name:'Japon',rank:13},{flag:'🇹🇳',name:'Tunisie',rank:35},{flag:'🇸🇪',name:'Suède',rank:30}],
-  G: [{flag:'🇧🇪',name:'Belgique',rank:16},{flag:'🇪🇬',name:'Égypte',rank:33},{flag:'🇮🇷',name:'Iran',rank:28},{flag:'🇳🇿',name:'Nlle-Zélande',rank:95}],
-  H: [{flag:'🇪🇸',name:'Espagne',rank:5},{flag:'🇨🇻',name:'Cap-Vert',rank:62},{flag:'🇸🇦',name:'Arabie Saoudite',rank:56},{flag:'🇺🇾',name:'Uruguay',rank:10}],
-  I: [{flag:'🇫🇷',name:'France',rank:2},{flag:'🇸🇳',name:'Sénégal',rank:24},{flag:'🇳🇴',name:'Norvège',rank:48},{flag:'🇮🇶',name:'Irak',rank:55}],
-  J: [{flag:'🇦🇷',name:'Argentine',rank:1},{flag:'🇩🇿',name:'Algérie',rank:32},{flag:'🇦🇹',name:'Autriche',rank:27},{flag:'🇯🇴',name:'Jordanie',rank:64}],
-  K: [{flag:'🇵🇹',name:'Portugal',rank:7},{flag:'🇺🇿',name:'Ouzbékistan',rank:62},{flag:'🇨🇴',name:'Colombie',rank:12},{flag:'🇨🇩',name:'RD Congo',rank:60}],
-  L: [{flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',name:'Angleterre',rank:4},{flag:'🇭🇷',name:'Croatie',rank:9},{flag:'🇬🇭',name:'Ghana',rank:52},{flag:'🇵🇦',name:'Panama',rank:68}],
+  A: [{flag:'mx',name:'Mexique',rank:15},{flag:'za',name:'Afrique du Sud',rank:59},{flag:'kr',name:'Corée du Sud',rank:22},{flag:'cz',name:'Tchéquie',rank:36}],
+  B: [{flag:'ca',name:'Canada',rank:40},{flag:'ch',name:'Suisse',rank:19},{flag:'qa',name:'Qatar',rank:45},{flag:'ba',name:'Bosnie-Herzégovine',rank:57}],
+  C: [{flag:'br',name:'Brésil',rank:3},{flag:'ma',name:'Maroc',rank:14},{flag:'ht',name:'Haïti',rank:87},{flag:'gb-eng',name:'Écosse',rank:52}],
+  D: [{flag:'us',name:'États-Unis',rank:11},{flag:'py',name:'Paraguay',rank:42},{flag:'au',name:'Australie',rank:20},{flag:'tr',name:'Turquie',rank:26}],
+  E: [{flag:'de',name:'Allemagne',rank:6},{flag:'cw',name:'Curaçao',rank:85},{flag:'ci',name:"Côte d'Ivoire",rank:38},{flag:'ec',name:'Équateur',rank:23}],
+  F: [{flag:'nl',name:'Pays-Bas',rank:8},{flag:'jp',name:'Japon',rank:13},{flag:'tn',name:'Tunisie',rank:35},{flag:'se',name:'Suède',rank:30}],
+  G: [{flag:'be',name:'Belgique',rank:16},{flag:'eg',name:'Égypte',rank:33},{flag:'ir',name:'Iran',rank:28},{flag:'nz',name:'Nlle-Zélande',rank:95}],
+  H: [{flag:'es',name:'Espagne',rank:5},{flag:'cv',name:'Cap-Vert',rank:62},{flag:'sa',name:'Arabie Saoudite',rank:56},{flag:'uy',name:'Uruguay',rank:10}],
+  I: [{flag:'fr',name:'France',rank:2},{flag:'sn',name:'Sénégal',rank:24},{flag:'no',name:'Norvège',rank:48},{flag:'iq',name:'Irak',rank:55}],
+  J: [{flag:'ar',name:'Argentine',rank:1},{flag:'dz',name:'Algérie',rank:32},{flag:'at',name:'Autriche',rank:27},{flag:'jo',name:'Jordanie',rank:64}],
+  K: [{flag:'pt',name:'Portugal',rank:7},{flag:'uz',name:'Ouzbékistan',rank:62},{flag:'co',name:'Colombie',rank:12},{flag:'cd',name:'RD Congo',rank:60}],
+  L: [{flag:'gb-eng',name:'Angleterre',rank:4},{flag:'hr',name:'Croatie',rank:9},{flag:'gh',name:'Ghana',rank:52},{flag:'pa',name:'Panama',rank:68}],
 };
 
     const calendarData = [
-  {stage:'group',date:'11 Juin',time:'22:00',home:'🇲🇽 Mexique',away:'🇿🇦 Afrique du Sud',venue:'Estadio Azteca, Mexico'},
-  {stage:'group',date:'12 Juin',time:'05:00',home:'🇰🇷 Corée du Sud',away:'🇨🇿 Tchéquie',venue:'Stade Akron, Guadalajara'},
-  {stage:'group',date:'12 Juin',time:'22:00',home:'🇨🇦 Canada',away:'🇧🇦 Bosnie-Herzégovine',venue:'BMO Field, Toronto'},
-  {stage:'group',date:'13 Juin',time:'04:00',home:'🇺🇸 États-Unis',away:'🇵🇾 Paraguay',venue:'SoFi Stadium, Inglewood'},
-  {stage:'group',date:'13 Juin',time:'22:00',home:'🇶🇦 Qatar',away:'🇨🇭 Suisse',venue:"Levi's Stadium, Santa Clara"},
-  {stage:'group',date:'14 Juin',time:'01:00',home:'🇧🇷 Brésil',away:'🇲🇦 Maroc',venue:'MetLife Stadium, East Rutherford'},
-  {stage:'group',date:'14 Juin',time:'04:00',home:'🇭🇹 Haïti',away:'🏴󠁧󠁢󠁳󠁣󠁴󠁿 Écosse',venue:'Gillette Stadium, Foxborough'},
-  {stage:'group',date:'14 Juin',time:'07:00',home:'🇦🇺 Australie',away:'🇹🇷 Turquie',venue:'BC Place, Vancouver'},
-  {stage:'group',date:'14 Juin',time:'20:00',home:'🇩🇪 Allemagne',away:'🇨🇼 Curaçao',venue:'NRG Stadium, Houston'},
-  {stage:'group',date:'14 Juin',time:'23:00',home:'🇳🇱 Pays-Bas',away:'🇯🇵 Japon',venue:'AT&T Stadium, Arlington'},
-  {stage:'group',date:'15 Juin',time:'02:00',home:'🇨🇮 Côte d\'Ivoire',away:'🇪🇨 Équateur',venue:'Lincoln Financial, Philadelphie'},
-  {stage:'group',date:'15 Juin',time:'05:00',home:'🇹🇳 Tunisie',away:'🇸🇪 Suède',venue:'BBVA Stadium, Monterrey'},
-  {stage:'group',date:'15 Juin',time:'19:00',home:'🇪🇸 Espagne',away:'🇨🇻 Cap-Vert',venue:'Mercedes-Benz, Atlanta'},
-  {stage:'group',date:'15 Juin',time:'22:00',home:'🇧🇪 Belgique',away:'🇪🇬 Égypte',venue:'Lumen Field, Seattle'},
-  {stage:'group',date:'16 Juin',time:'01:00',home:'🇸🇦 Arabie Saoudite',away:'🇺🇾 Uruguay',venue:'Hard Rock Stadium, Miami'},
-  {stage:'group',date:'16 Juin',time:'04:00',home:'🇮🇷 Iran',away:'🇳🇿 Nlle-Zélande',venue:'SoFi Stadium, Inglewood'},
-  {stage:'group',date:'16 Juin',time:'22:00',home:'🇫🇷 France',away:'🇸🇳 Sénégal',venue:'MetLife Stadium, East Rutherford'},
-  {stage:'group',date:'17 Juin',time:'01:00',home:'🇮🇶 Irak',away:'🇳🇴 Norvège',venue:'Gillette Stadium, Foxborough'},
-  {stage:'group',date:'17 Juin',time:'04:00',home:'🇦🇷 Argentine',away:'🇩🇿 Algérie',venue:'Arrowhead Stadium, Kansas City'},
-  {stage:'group',date:'17 Juin',time:'07:00',home:'🇯🇴 Jordanie',away:'🇦🇹 Autriche',venue:"Levi's Stadium, Santa Clara"},
-  {stage:'group',date:'17 Juin',time:'20:00',home:'🇵🇹 Portugal',away:'🇨🇩 RD Congo',venue:'NRG Stadium, Houston'},
-  {stage:'group',date:'17 Juin',time:'23:00',home:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 Angleterre',away:'🇭🇷 Croatie',venue:'AT&T Stadium, Arlington'},
-  {stage:'group',date:'18 Juin',time:'02:00',home:'🇬🇭 Ghana',away:'🇵🇦 Panama',venue:'BMO Field, Toronto'},
-  {stage:'group',date:'18 Juin',time:'05:00',home:'🇺🇿 Ouzbékistan',away:'🇨🇴 Colombie',venue:'Estadio Azteca, Mexico'},
-  {stage:'group',date:'18 Juin',time:'19:00',home:'🇨🇿 Tchéquie',away:'🇿🇦 Afrique du Sud',venue:'Mercedes-Benz, Atlanta'},
-  {stage:'group',date:'18 Juin',time:'22:00',home:'🇨🇭 Suisse',away:'🇧🇦 Bosnie-Herzégovine',venue:'SoFi Stadium, Inglewood'},
-  {stage:'group',date:'19 Juin',time:'01:00',home:'🇨🇦 Canada',away:'🇶🇦 Qatar',venue:'BC Place, Vancouver'},
-  {stage:'group',date:'19 Juin',time:'04:00',home:'🇲🇽 Mexique',away:'🇰🇷 Corée du Sud',venue:'Stade Akron, Guadalajara'},
-  {stage:'group',date:'19 Juin',time:'22:00',home:'🇺🇸 États-Unis',away:'🇦🇺 Australie',venue:'Lumen Field, Seattle'},
-  {stage:'group',date:'20 Juin',time:'01:00',home:'🇲🇦 Maroc',away:'🏴󠁧󠁢󠁳󠁣󠁴󠁿 Écosse',venue:'Gillette Stadium, Foxborough'},
-  {stage:'group',date:'20 Juin',time:'03:30',home:'🇧🇷 Brésil',away:'🇭🇹 Haïti',venue:'Lincoln Financial, Philadelphie'},
-  {stage:'group',date:'20 Juin',time:'06:00',home:'🇹🇷 Turquie',away:'🇵🇾 Paraguay',venue:"Levi's Stadium, Santa Clara"},
-  {stage:'group',date:'20 Juin',time:'20:00',home:'🇳🇱 Pays-Bas',away:'🇸🇪 Suède',venue:'NRG Stadium, Houston'},
-  {stage:'group',date:'20 Juin',time:'23:00',home:'🇩🇪 Allemagne',away:'🇨🇮 Côte d\'Ivoire',venue:'BMO Field, Toronto'},
-  {stage:'group',date:'21 Juin',time:'03:00',home:'🇪🇨 Équateur',away:'🇨🇼 Curaçao',venue:'Arrowhead Stadium, Kansas City'},
-  {stage:'group',date:'21 Juin',time:'07:00',home:'🇹🇳 Tunisie',away:'🇯🇵 Japon',venue:'BBVA Stadium, Monterrey'},
-  {stage:'group',date:'21 Juin',time:'19:00',home:'🇪🇸 Espagne',away:'🇸🇦 Arabie Saoudite',venue:'Mercedes-Benz, Atlanta'},
-  {stage:'group',date:'21 Juin',time:'22:00',home:'🇧🇪 Belgique',away:'🇮🇷 Iran',venue:'SoFi Stadium, Inglewood'},
-  {stage:'group',date:'22 Juin',time:'01:00',home:'🇺🇾 Uruguay',away:'🇨🇻 Cap-Vert',venue:'Hard Rock Stadium, Miami'},
-  {stage:'group',date:'22 Juin',time:'04:00',home:'🇳🇿 Nlle-Zélande',away:'🇪🇬 Égypte',venue:'BC Place, Vancouver'},
-  {stage:'group',date:'22 Juin',time:'20:00',home:'🇦🇷 Argentine',away:'🇦🇹 Autriche',venue:'AT&T Stadium, Arlington'},
-  {stage:'group',date:'23 Juin',time:'00:00',home:'🇫🇷 France',away:'🇮🇶 Irak',venue:'Lincoln Financial, Philadelphie'},
-  {stage:'group',date:'23 Juin',time:'03:00',home:'🇳🇴 Norvège',away:'🇸🇳 Sénégal',venue:'MetLife Stadium, East Rutherford'},
-  {stage:'group',date:'23 Juin',time:'06:00',home:'🇯🇴 Jordanie',away:'🇩🇿 Algérie',venue:"Levi's Stadium, Santa Clara"},
-  {stage:'group',date:'23 Juin',time:'20:00',home:'🇵🇹 Portugal',away:'🇺🇿 Ouzbékistan',venue:'NRG Stadium, Houston'},
-  {stage:'group',date:'23 Juin',time:'23:00',home:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 Angleterre',away:'🇬🇭 Ghana',venue:'Gillette Stadium, Foxborough'},
-  {stage:'group',date:'24 Juin',time:'02:00',home:'🇵🇦 Panama',away:'🇭🇷 Croatie',venue:'BMO Field, Toronto'},
-  {stage:'group',date:'24 Juin',time:'05:00',home:'🇨🇴 Colombie',away:'🇨🇩 RD Congo',venue:'Stade Akron, Guadalajara'},
-  {stage:'group',date:'24 Juin',time:'22:00',home:'🇨🇭 Suisse',away:'🇨🇦 Canada',venue:'BC Place, Vancouver'},
-  {stage:'group',date:'24 Juin',time:'22:00',home:'🇧🇦 Bosnie-Herzégovine',away:'🇶🇦 Qatar',venue:'Lumen Field, Seattle'},
-  {stage:'group',date:'25 Juin',time:'01:00',home:'🏴󠁧󠁢󠁳󠁣󠁴󠁿 Écosse',away:'🇧🇷 Brésil',venue:'Hard Rock Stadium, Miami'},
-  {stage:'group',date:'25 Juin',time:'01:00',home:'🇲🇦 Maroc',away:'🇭🇹 Haïti',venue:'Mercedes-Benz, Atlanta'},
-  {stage:'group',date:'25 Juin',time:'04:00',home:'🇨🇿 Tchéquie',away:'🇲🇽 Mexique',venue:'Estadio Azteca, Mexico'},
-  {stage:'group',date:'25 Juin',time:'04:00',home:'🇿🇦 Afrique du Sud',away:'🇰🇷 Corée du Sud',venue:'BBVA Stadium, Monterrey'},
-  {stage:'group',date:'25 Juin',time:'23:00',home:'🇪🇨 Équateur',away:'🇩🇪 Allemagne',venue:'MetLife Stadium'},
-  {stage:'group',date:'25 Juin',time:'23:00',home:'🇨🇼 Curaçao',away:'🇨🇮 Côte d\'Ivoire',venue:'Lincoln Financial, Philadelphie'},
-  {stage:'group',date:'26 Juin',time:'02:00',home:'🇹🇳 Tunisie',away:'🇳🇱 Pays-Bas',venue:'Arrowhead Stadium, Kansas City'},
-  {stage:'group',date:'26 Juin',time:'02:00',home:'🇯🇵 Japon',away:'🇸🇪 Suède',venue:'AT&T Stadium, Arlington'},
-  {stage:'group',date:'26 Juin',time:'05:00',home:'🇵🇾 Paraguay',away:'🇦🇺 Australie',venue:"Levi's Stadium, Santa Clara"},
-  {stage:'group',date:'26 Juin',time:'05:00',home:'🇹🇷 Turquie',away:'🇺🇸 États-Unis',venue:'SoFi Stadium, Inglewood'},
-  {stage:'group',date:'26 Juin',time:'22:00',home:'🇳🇴 Norvège',away:'🇫🇷 France',venue:'Gillette Stadium, Foxborough'},
-  {stage:'group',date:'26 Juin',time:'22:00',home:'🇸🇳 Sénégal',away:'🇮🇶 Irak',venue:'BMO Field, Toronto'},
-  {stage:'group',date:'27 Juin',time:'03:00',home:'🇺🇾 Uruguay',away:'🇪🇸 Espagne',venue:'Stade Akron, Guadalajara'},
-  {stage:'group',date:'27 Juin',time:'03:00',home:'🇨🇻 Cap-Vert',away:'🇸🇦 Arabie Saoudite',venue:'NRG Stadium, Houston'},
-  {stage:'group',date:'27 Juin',time:'06:00',home:'🇪🇬 Égypte',away:'🇮🇷 Iran',venue:'Lumen Field, Seattle'},
-  {stage:'group',date:'27 Juin',time:'06:00',home:'🇳🇿 Nlle-Zélande',away:'🇧🇪 Belgique',venue:'BC Place, Vancouver'},
-  {stage:'group',date:'28 Juin',time:'00:00',home:'🇵🇦 Panama',away:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 Angleterre',venue:'MetLife Stadium'},
-  {stage:'group',date:'28 Juin',time:'00:00',home:'🇭🇷 Croatie',away:'🇬🇭 Ghana',venue:'Lincoln Financial, Philadelphie'},
-  {stage:'group',date:'28 Juin',time:'02:30',home:'🇨🇴 Colombie',away:'🇵🇹 Portugal',venue:'Hard Rock Stadium, Miami'},
-  {stage:'group',date:'28 Juin',time:'02:30',home:'🇨🇩 RD Congo',away:'🇺🇿 Ouzbékistan',venue:'Mercedes-Benz, Atlanta'},
-  {stage:'group',date:'28 Juin',time:'05:00',home:'🇯🇴 Jordanie',away:'🇦🇷 Argentine',venue:'AT&T Stadium, Arlington'},
-  {stage:'group',date:'28 Juin',time:'05:00',home:'🇩🇿 Algérie',away:'🇦🇹 Autriche',venue:'Arrowhead Stadium, Kansas City'},
+  {stage:'group',date:'11 Juin',time:'22:00',home:'Mexique',away:'Afrique du Sud',venue:'Estadio Azteca, Mexico'},
+  {stage:'group',date:'12 Juin',time:'05:00',home:'Corée du Sud',away:'Tchéquie',venue:'Stade Akron, Guadalajara'},
+  {stage:'group',date:'12 Juin',time:'22:00',home:'Canada',away:'Bosnie-Herzégovine',venue:'BMO Field, Toronto'},
+  {stage:'group',date:'13 Juin',time:'04:00',home:'États-Unis',away:'Paraguay',venue:'SoFi Stadium, Inglewood'},
+  {stage:'group',date:'13 Juin',time:'22:00',home:'Qatar',away:'Suisse',venue:"Levi's Stadium, Santa Clara"},
+  {stage:'group',date:'14 Juin',time:'01:00',home:'Brésil',away:'Maroc',venue:'MetLife Stadium, East Rutherford'},
+  {stage:'group',date:'14 Juin',time:'04:00',home:'Haïti',away:'Écosse',venue:'Gillette Stadium, Foxborough'},
+  {stage:'group',date:'14 Juin',time:'07:00',home:'Australie',away:'Turquie',venue:'BC Place, Vancouver'},
+  {stage:'group',date:'14 Juin',time:'20:00',home:'Allemagne',away:'Curaçao',venue:'NRG Stadium, Houston'},
+  {stage:'group',date:'14 Juin',time:'23:00',home:'Pays-Bas',away:'Japon',venue:'AT&T Stadium, Arlington'},
+  {stage:'group',date:'15 Juin',time:'02:00',home:'Côte d\'Ivoire',away:'Équateur',venue:'Lincoln Financial, Philadelphie'},
+  {stage:'group',date:'15 Juin',time:'05:00',home:'Tunisie',away:'Suède',venue:'BBVA Stadium, Monterrey'},
+  {stage:'group',date:'15 Juin',time:'19:00',home:'Espagne',away:'Cap-Vert',venue:'Mercedes-Benz, Atlanta'},
+  {stage:'group',date:'15 Juin',time:'22:00',home:'Belgique',away:'Égypte',venue:'Lumen Field, Seattle'},
+  {stage:'group',date:'16 Juin',time:'01:00',home:'Arabie Saoudite',away:'Uruguay',venue:'Hard Rock Stadium, Miami'},
+  {stage:'group',date:'16 Juin',time:'04:00',home:'Iran',away:'Nlle-Zélande',venue:'SoFi Stadium, Inglewood'},
+  {stage:'group',date:'16 Juin',time:'22:00',home:'France',away:'Sénégal',venue:'MetLife Stadium, East Rutherford'},
+  {stage:'group',date:'17 Juin',time:'01:00',home:'Irak',away:'Norvège',venue:'Gillette Stadium, Foxborough'},
+  {stage:'group',date:'17 Juin',time:'04:00',home:'Argentine',away:'Algérie',venue:'Arrowhead Stadium, Kansas City'},
+  {stage:'group',date:'17 Juin',time:'07:00',home:'Jordanie',away:'Autriche',venue:"Levi's Stadium, Santa Clara"},
+  {stage:'group',date:'17 Juin',time:'20:00',home:'Portugal',away:'RD Congo',venue:'NRG Stadium, Houston'},
+  {stage:'group',date:'17 Juin',time:'23:00',home:'Angleterre',away:'Croatie',venue:'AT&T Stadium, Arlington'},
+  {stage:'group',date:'18 Juin',time:'02:00',home:'Ghana',away:'Panama',venue:'BMO Field, Toronto'},
+  {stage:'group',date:'18 Juin',time:'05:00',home:'Ouzbékistan',away:'Colombie',venue:'Estadio Azteca, Mexico'},
+  {stage:'group',date:'18 Juin',time:'19:00',home:'Tchéquie',away:'Afrique du Sud',venue:'Mercedes-Benz, Atlanta'},
+  {stage:'group',date:'18 Juin',time:'22:00',home:'Suisse',away:'Bosnie-Herzégovine',venue:'SoFi Stadium, Inglewood'},
+  {stage:'group',date:'19 Juin',time:'01:00',home:'Canada',away:'Qatar',venue:'BC Place, Vancouver'},
+  {stage:'group',date:'19 Juin',time:'04:00',home:'Mexique',away:'Corée du Sud',venue:'Stade Akron, Guadalajara'},
+  {stage:'group',date:'19 Juin',time:'22:00',home:'États-Unis',away:'Australie',venue:'Lumen Field, Seattle'},
+  {stage:'group',date:'20 Juin',time:'01:00',home:'Maroc',away:'Écosse',venue:'Gillette Stadium, Foxborough'},
+  {stage:'group',date:'20 Juin',time:'03:30',home:'Brésil',away:'Haïti',venue:'Lincoln Financial, Philadelphie'},
+  {stage:'group',date:'20 Juin',time:'06:00',home:'Turquie',away:'Paraguay',venue:"Levi's Stadium, Santa Clara"},
+  {stage:'group',date:'20 Juin',time:'20:00',home:'Pays-Bas',away:'Suède',venue:'NRG Stadium, Houston'},
+  {stage:'group',date:'20 Juin',time:'23:00',home:'Allemagne',away:'Côte d\'Ivoire',venue:'BMO Field, Toronto'},
+  {stage:'group',date:'21 Juin',time:'03:00',home:'Équateur',away:'Curaçao',venue:'Arrowhead Stadium, Kansas City'},
+  {stage:'group',date:'21 Juin',time:'07:00',home:'Tunisie',away:'Japon',venue:'BBVA Stadium, Monterrey'},
+  {stage:'group',date:'21 Juin',time:'19:00',home:'Espagne',away:'Arabie Saoudite',venue:'Mercedes-Benz, Atlanta'},
+  {stage:'group',date:'21 Juin',time:'22:00',home:'Belgique',away:'Iran',venue:'SoFi Stadium, Inglewood'},
+  {stage:'group',date:'22 Juin',time:'01:00',home:'Uruguay',away:'Cap-Vert',venue:'Hard Rock Stadium, Miami'},
+  {stage:'group',date:'22 Juin',time:'04:00',home:'Nlle-Zélande',away:'Égypte',venue:'BC Place, Vancouver'},
+  {stage:'group',date:'22 Juin',time:'20:00',home:'Argentine',away:'Autriche',venue:'AT&T Stadium, Arlington'},
+  {stage:'group',date:'23 Juin',time:'00:00',home:'France',away:'Irak',venue:'Lincoln Financial, Philadelphie'},
+  {stage:'group',date:'23 Juin',time:'03:00',home:'Norvège',away:'Sénégal',venue:'MetLife Stadium, East Rutherford'},
+  {stage:'group',date:'23 Juin',time:'06:00',home:'Jordanie',away:'Algérie',venue:"Levi's Stadium, Santa Clara"},
+  {stage:'group',date:'23 Juin',time:'20:00',home:'Portugal',away:'Ouzbékistan',venue:'NRG Stadium, Houston'},
+  {stage:'group',date:'23 Juin',time:'23:00',home:'Angleterre',away:'Ghana',venue:'Gillette Stadium, Foxborough'},
+  {stage:'group',date:'24 Juin',time:'02:00',home:'Panama',away:'Croatie',venue:'BMO Field, Toronto'},
+  {stage:'group',date:'24 Juin',time:'05:00',home:'Colombie',away:'RD Congo',venue:'Stade Akron, Guadalajara'},
+  {stage:'group',date:'24 Juin',time:'22:00',home:'Suisse',away:'Canada',venue:'BC Place, Vancouver'},
+  {stage:'group',date:'24 Juin',time:'22:00',home:'Bosnie-Herzégovine',away:'Qatar',venue:'Lumen Field, Seattle'},
+  {stage:'group',date:'25 Juin',time:'01:00',home:'Écosse',away:'Brésil',venue:'Hard Rock Stadium, Miami'},
+  {stage:'group',date:'25 Juin',time:'01:00',home:'Maroc',away:'Haïti',venue:'Mercedes-Benz, Atlanta'},
+  {stage:'group',date:'25 Juin',time:'04:00',home:'Tchéquie',away:'Mexique',venue:'Estadio Azteca, Mexico'},
+  {stage:'group',date:'25 Juin',time:'04:00',home:'Afrique du Sud',away:'Corée du Sud',venue:'BBVA Stadium, Monterrey'},
+  {stage:'group',date:'25 Juin',time:'23:00',home:'Équateur',away:'Allemagne',venue:'MetLife Stadium'},
+  {stage:'group',date:'25 Juin',time:'23:00',home:'Curaçao',away:'Côte d\'Ivoire',venue:'Lincoln Financial, Philadelphie'},
+  {stage:'group',date:'26 Juin',time:'02:00',home:'Tunisie',away:'Pays-Bas',venue:'Arrowhead Stadium, Kansas City'},
+  {stage:'group',date:'26 Juin',time:'02:00',home:'Japon',away:'Suède',venue:'AT&T Stadium, Arlington'},
+  {stage:'group',date:'26 Juin',time:'05:00',home:'Paraguay',away:'Australie',venue:"Levi's Stadium, Santa Clara"},
+  {stage:'group',date:'26 Juin',time:'05:00',home:'Turquie',away:'États-Unis',venue:'SoFi Stadium, Inglewood'},
+  {stage:'group',date:'26 Juin',time:'22:00',home:'Norvège',away:'France',venue:'Gillette Stadium, Foxborough'},
+  {stage:'group',date:'26 Juin',time:'22:00',home:'Sénégal',away:'Irak',venue:'BMO Field, Toronto'},
+  {stage:'group',date:'27 Juin',time:'03:00',home:'Uruguay',away:'Espagne',venue:'Stade Akron, Guadalajara'},
+  {stage:'group',date:'27 Juin',time:'03:00',home:'Cap-Vert',away:'Arabie Saoudite',venue:'NRG Stadium, Houston'},
+  {stage:'group',date:'27 Juin',time:'06:00',home:'Égypte',away:'Iran',venue:'Lumen Field, Seattle'},
+  {stage:'group',date:'27 Juin',time:'06:00',home:'Nlle-Zélande',away:'Belgique',venue:'BC Place, Vancouver'},
+  {stage:'group',date:'28 Juin',time:'00:00',home:'Panama',away:'Angleterre',venue:'MetLife Stadium'},
+  {stage:'group',date:'28 Juin',time:'00:00',home:'Croatie',away:'Ghana',venue:'Lincoln Financial, Philadelphie'},
+  {stage:'group',date:'28 Juin',time:'02:30',home:'Colombie',away:'Portugal',venue:'Hard Rock Stadium, Miami'},
+  {stage:'group',date:'28 Juin',time:'02:30',home:'RD Congo',away:'Ouzbékistan',venue:'Mercedes-Benz, Atlanta'},
+  {stage:'group',date:'28 Juin',time:'05:00',home:'Jordanie',away:'Argentine',venue:'AT&T Stadium, Arlington'},
+  {stage:'group',date:'28 Juin',time:'05:00',home:'Algérie',away:'Autriche',venue:'Arrowhead Stadium, Kansas City'},
   // ══ 32èmes de finale ══
-  {stage:'r32',date:'29 Juin',time:'22:00',home:'2ème Gr. A',away:'2ème Gr. B',venue:'SoFi Stadium, Los Angeles'},
-  {stage:'r32',date:'29 Juin',time:'23:30',home:'1er Gr. E',away:'Meilleur 3ème',venue:'Gillette Stadium, Boston'},
-  {stage:'r32',date:'30 Juin',time:'04:00',home:'1er Gr. F',away:'2ème Gr. C',venue:'BBVA Stadium, Monterrey'},
-  {stage:'r32',date:'30 Juin',time:'20:00',home:'1er Gr. C',away:'2ème Gr. F',venue:'NRG Stadium, Houston'},
-  {stage:'r32',date:'01 Juil.',time:'00:00',home:'1er Gr. I',away:'Meilleur 3ème',venue:'MetLife Stadium, New York'},
-  {stage:'r32',date:'01 Juil.',time:'20:00',home:'2ème Gr. E',away:'2ème Gr. I',venue:'AT&T Stadium, Dallas'},
-  {stage:'r32',date:'02 Juil.',time:'04:00',home:'1er Gr. A',away:'Meilleur 3ème',venue:'Estadio Azteca, Mexico'},
-  {stage:'r32',date:'02 Juil.',time:'19:00',home:'1er Gr. L',away:'Meilleur 3ème',venue:'Mercedes-Benz, Atlanta'},
-  {stage:'r32',date:'02 Juil.',time:'03:00',home:'1er Gr. D',away:'Meilleur 3ème',venue:"Levi's Stadium, San Francisco"},
-  {stage:'r32',date:'02 Juil.',time:'23:00',home:'1er Gr. G',away:'Meilleur 3ème',venue:'Lumen Field, Seattle'},
-  {stage:'r32',date:'03 Juil.',time:'02:00',home:'2ème Gr. K',away:'2ème Gr. L',venue:'BMO Field, Toronto'},
-  {stage:'r32',date:'03 Juil.',time:'22:00',home:'1er Gr. H',away:'2ème Gr. J',venue:'SoFi Stadium, Los Angeles'},
-  {stage:'r32',date:'04 Juil.',time:'06:00',home:'1er Gr. B',away:'Meilleur 3ème',venue:'BC Place, Vancouver'},
-  {stage:'r32',date:'04 Juil.',time:'01:00',home:'1er Gr. J',away:'2ème Gr. H',venue:'Hard Rock Stadium, Miami'},
-  {stage:'r32',date:'04 Juil.',time:'04:30',home:'1er Gr. K',away:'Meilleur 3ème',venue:'Arrowhead Stadium, Kansas City'},
-  {stage:'r32',date:'04 Juil.',time:'21:00',home:'2ème Gr. D',away:'2ème Gr. G',venue:'AT&T Stadium, Dallas'},
+  {stage:'r32',date:'29 Juin',time:'22:00',home:'ème Gr. A',away:'ème Gr. B',venue:'SoFi Stadium, Los Angeles'},
+  {stage:'r32',date:'29 Juin',time:'23:30',home:'er Gr. E',away:'Meilleur 3ème',venue:'Gillette Stadium, Boston'},
+  {stage:'r32',date:'30 Juin',time:'04:00',home:'er Gr. F',away:'ème Gr. C',venue:'BBVA Stadium, Monterrey'},
+  {stage:'r32',date:'30 Juin',time:'20:00',home:'er Gr. C',away:'ème Gr. F',venue:'NRG Stadium, Houston'},
+  {stage:'r32',date:'01 Juil.',time:'00:00',home:'er Gr. I',away:'Meilleur 3ème',venue:'MetLife Stadium, New York'},
+  {stage:'r32',date:'01 Juil.',time:'20:00',home:'ème Gr. E',away:'ème Gr. I',venue:'AT&T Stadium, Dallas'},
+  {stage:'r32',date:'02 Juil.',time:'04:00',home:'er Gr. A',away:'Meilleur 3ème',venue:'Estadio Azteca, Mexico'},
+  {stage:'r32',date:'02 Juil.',time:'19:00',home:'er Gr. L',away:'Meilleur 3ème',venue:'Mercedes-Benz, Atlanta'},
+  {stage:'r32',date:'02 Juil.',time:'03:00',home:'er Gr. D',away:'Meilleur 3ème',venue:"Levi's Stadium, San Francisco"},
+  {stage:'r32',date:'02 Juil.',time:'23:00',home:'er Gr. G',away:'Meilleur 3ème',venue:'Lumen Field, Seattle'},
+  {stage:'r32',date:'03 Juil.',time:'02:00',home:'ème Gr. K',away:'ème Gr. L',venue:'BMO Field, Toronto'},
+  {stage:'r32',date:'03 Juil.',time:'22:00',home:'er Gr. H',away:'ème Gr. J',venue:'SoFi Stadium, Los Angeles'},
+  {stage:'r32',date:'04 Juil.',time:'06:00',home:'er Gr. B',away:'Meilleur 3ème',venue:'BC Place, Vancouver'},
+  {stage:'r32',date:'04 Juil.',time:'01:00',home:'er Gr. J',away:'ème Gr. H',venue:'Hard Rock Stadium, Miami'},
+  {stage:'r32',date:'04 Juil.',time:'04:30',home:'er Gr. K',away:'Meilleur 3ème',venue:'Arrowhead Stadium, Kansas City'},
+  {stage:'r32',date:'04 Juil.',time:'21:00',home:'ème Gr. D',away:'ème Gr. G',venue:'AT&T Stadium, Dallas'},
   // ══ 8èmes de finale ══
   {stage:'r16',date:'4 Juil.',time:'20:00',home:'Vainqueur M73',away:'Vainqueur M75',venue:'NRG Stadium, Houston'},
   {stage:'r16',date:'5 Juil.',time:'00:00',home:'Vainqueur M74',away:'Vainqueur M77',venue:'Lincoln Financial, Philadelphie'},
@@ -703,7 +703,7 @@ const groups = {
   {stage:'sf',date:'15 Juil.',time:'22:00',home:'Vainqueur QF-3',away:'Vainqueur QF-4',venue:'Mercedes-Benz, Atlanta'},
   // ══ Finale ══
   {stage:'final',date:'19 Juil.',time:'00:00',home:'Match 3ème place',away:'Perdants demi-finales',venue:'Hard Rock Stadium, Miami'},
-  {stage:'final',date:'19 Juil.',time:'22:00',home:'🏆 FINALE',away:'Vainqueurs demi-finales',venue:'MetLife Stadium, New York'},
+  {stage:'final',date:'19 Juil.',time:'22:00',home:'FINALE',away:'Vainqueurs demi-finales',venue:'MetLife Stadium, New York'},
   ]
 
 const leaderboardUsers = [
@@ -1049,16 +1049,16 @@ function renderPredMatches(){
       // Teams
       '<div class="px-5 py-5">'+
         '<div class="flex items-center justify-between mb-5">'+
-          '<div class="text-center flex-1"><span class="text-2xl block mb-1">'+m.home.split(' ')[0]+'</span><span class="text-sm font-semibold text-zinc-200">'+m.home.replace(/^[^\s]+ /,'')+'</span></div>'+
+          '<div class="text-center flex-1"><span class="text-2xl block mb-1">'+m.home.split(' ')[0]+'</span><span class="text-sm font-semibold text-zinc-200">'+m.home+'</span></div>'+
           '<div class="text-center px-4"><span class="text-xs font-bold text-zinc-600 bg-zinc-800 px-3 py-1.5 rounded-lg">VS</span></div>'+
-          '<div class="text-center flex-1"><span class="text-2xl block mb-1">'+m.away.split(' ')[0]+'</span><span class="text-sm font-semibold text-zinc-200">'+m.away.replace(/^[^\s]+ /,'')+'</span></div>'+
+          '<div class="text-center flex-1"><span class="text-2xl block mb-1">'+m.away.split(' ')[0]+'</span><span class="text-sm font-semibold text-zinc-200">'+m.away+'</span></div>'+
         '</div>'+
         // Probability bar
         '<div class="mb-5">'+
           '<div class="flex justify-between text-[11px] font-medium mb-1.5">'+
-            '<span class="text-amber-400">Victoire '+m.home.replace(/^[^\s]+ /,'').split(' ')[0]+' '+analysis.pct[0]+'%</span>'+
+            '<span class="text-amber-400">Victoire '+m.home.split(' ')[0]+' '+analysis.pct[0]+'%</span>'+
             '<span class="text-zinc-500">Nul '+analysis.pct[1]+'%</span>'+
-            '<span class="text-blue-400">Victoire '+m.away.replace(/^[^\s]+ /,'').split(' ')[0]+' '+analysis.pct[2]+'%</span>'+
+            '<span class="text-blue-400">Victoire '+m.away.split(' ')[0]+' '+analysis.pct[2]+'%</span>'+
           '</div>'+
           '<div class="flex h-2 rounded-full overflow-hidden bg-zinc-800">'+
             '<div class="bg-gradient-to-r from-amber-400 to-amber-500 rounded-l-full" style="width:'+analysis.pct[0]+'%"></div>'+
@@ -1089,9 +1089,9 @@ function renderPredMatches(){
           '<div class="bg-zinc-800/20 rounded-xl p-4 border border-zinc-800/40">'+
             '<p class="text-xs text-zinc-500 mb-3 font-medium uppercase tracking-wider">Ton pronostic — Score exact</p>'+
             '<div class="flex items-center justify-center gap-3 mb-3">'+
-              '<div class="text-center"><span class="text-[10px] text-zinc-500 block mb-1">'+m.home.replace(/^[^\s]+ /,'').split(' ')[0]+'</span><input type="number" min="0" max="15" value="0" id="'+matchId+'-h" class="w-14 h-12 bg-zinc-800 border border-zinc-700 rounded-xl text-center text-xl font-bold text-white focus:border-amber-500 transition"/></div>'+
+              '<div class="text-center"><span class="text-[10px] text-zinc-500 block mb-1">'+m.home.split(' ')[0]+'</span><input type="number" min="0" max="15" value="0" id="'+matchId+'-h" class="w-14 h-12 bg-zinc-800 border border-zinc-700 rounded-xl text-center text-xl font-bold text-white focus:border-amber-500 transition"/></div>'+
               '<span class="text-zinc-600 font-bold text-lg mt-3">—</span>'+
-              '<div class="text-center"><span class="text-[10px] text-zinc-500 block mb-1">'+m.away.replace(/^[^\s]+ /,'').split(' ')[0]+'</span><input type="number" min="0" max="15" value="0" id="'+matchId+'-a" class="w-14 h-12 bg-zinc-800 border border-zinc-700 rounded-xl text-center text-xl font-bold text-white focus:border-amber-500 transition"/></div>'+
+              '<div class="text-center"><span class="text-[10px] text-zinc-500 block mb-1">'+m.away.split(' ')[0]+'</span><input type="number" min="0" max="15" value="0" id="'+matchId+'-a" class="w-14 h-12 bg-zinc-800 border border-zinc-700 rounded-xl text-center text-xl font-bold text-white focus:border-amber-500 transition"/></div>'+
               '<div class="ml-4"><span class="text-[10px] text-zinc-500 block mb-1">Mise (pts)</span><input type="number" min="10" max="'+(state.user?.points||0)+'" step="10" value="20" id="'+matchId+'-pts" class="w-20 h-12 bg-zinc-800 border border-zinc-700 rounded-xl text-center text-sm font-bold text-amber-400 focus:border-amber-500 transition"/></div>'+
             '</div>'+
             '<button onclick="submitPrediction(\''+matchId+'\',\''+m.home.replace(/'/g,'\\\'')+m.away.replace(/'/g,'\\\'')+'\',\''+m.date.replace(/'/g,'\\\'')+'\')" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-xl transition-all text-sm '+(state.user?'':'opacity-50 cursor-not-allowed')+'">'+(state.user?'Valider mon pronostic':'Connecte-toi pour prédire')+'</button>'+
@@ -1185,6 +1185,13 @@ function onMarketClick(id){
       'ARGENTINE':'ar','ALGÉRIE':'dz','MEXIQUE':'mx','AFRIQUE DU SUD':'za',
       'Nlle':'nz','du':'za','Football':'un','Monde':'un','Joueur':'un'
     };
+
+    function codeFlagImg(code, size) {
+      size = size || 40;
+      var h = Math.round(size * 0.67);
+      return '<img src="https://flagcdn.com/w80/'+code+'.png" width="'+size+'" height="'+h+'" alt="'+code+'" style="border-radius:4px;object-fit:cover;display:inline-block" onerror="this.alt=\'?\'">';
+    }
+
     function nameToFlag(name, size) {
       size = size || 40;
       var n = (name||'').trim();
@@ -1202,9 +1209,7 @@ function onMarketClick(id){
     // Extract country name from match string like "🇧🇷 Brésil" or "🇲🇦 Maroc"  
     function getCountryName(str) {
       if(!str) return '';
-      var parts = str.trim().split(' ');
-      if(parts.length > 1) return parts.slice(1).join(' ');
-      return parts[0];
+      return str.trim();
     }
     function flagFromMatch(matchStr, size) {
       return nameToFlag(getCountryName(matchStr), size);
@@ -1243,7 +1248,7 @@ function onMarketClick(id){
         su.textContent=days[fd.getDay()]+' '+fd.getDate()+' '+mons[fd.getMonth()]+' — '+ms.length+' match'+(ms.length>1?'s':'')}
       c.innerHTML=ms.slice(0,4).map(function(m,idx){
         var a=getTeamAnalysis(m.home,m.away),st=getMStat(m.date,m.time),cd=getCD(m.date,m.time);
-        var ht=m.home.split(' '),hn=m.home.replace(ht[0]+' ',''),at=m.away.split(' '),an=m.away.replace(at[0]+' ','');
+        var hn=m.home,an=m.away;
         var sc=a.tips.match(/(\d)\s*[-–]\s*(\d)/);var ss=sc?sc[1]+' - '+sc[2]:'1 - 0';
         return '<div class="prono-card slide-in" style="animation-delay:'+(idx*0.1)+'s">'+
           '<div class="prono-card-hdr px-4 py-2.5 flex items-center justify-between"><span class="prono-badge">CDM 2026</span><span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full border '+st.b+' text-[10px] font-bold '+st.c+'">'+(st.d?'<span class="w-1.5 h-1.5 rounded-full bg-current pulse-dot"></span>':'')+st.l+'</span></div>'+
