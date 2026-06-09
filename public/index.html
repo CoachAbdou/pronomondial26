@@ -1049,16 +1049,16 @@ function renderPredMatches(){
       // Teams
       '<div class="px-5 py-5">'+
         '<div class="flex items-center justify-between mb-5">'+
-          '<div class="text-center flex-1"><span class="text-2xl block mb-1">'+m.home.split(' ')[0]+'</span><span class="text-sm font-semibold text-zinc-200">'+m.home+'</span></div>'+
+          '<div class="text-center flex-1"><span class="block mb-2">'+nameToFlag(m.home,44)+'</span><span class="text-sm font-semibold text-zinc-200">'+m.home+'</span></div>'+
           '<div class="text-center px-4"><span class="text-xs font-bold text-zinc-600 bg-zinc-800 px-3 py-1.5 rounded-lg">VS</span></div>'+
-          '<div class="text-center flex-1"><span class="text-2xl block mb-1">'+m.away.split(' ')[0]+'</span><span class="text-sm font-semibold text-zinc-200">'+m.away+'</span></div>'+
+          '<div class="text-center flex-1"><span class="block mb-2">'+nameToFlag(m.away,44)+'</span><span class="text-sm font-semibold text-zinc-200">'+m.away+'</span></div>'+
         '</div>'+
         // Probability bar
         '<div class="mb-5">'+
           '<div class="flex justify-between text-[11px] font-medium mb-1.5">'+
-            '<span class="text-amber-400">Victoire '+m.home.split(' ')[0]+' '+analysis.pct[0]+'%</span>'+
+            '<span class="text-amber-400">'+nameToFlag(m.home,16)+' '+analysis.pct[0]+'%</span>'+
             '<span class="text-zinc-500">Nul '+analysis.pct[1]+'%</span>'+
-            '<span class="text-blue-400">Victoire '+m.away.split(' ')[0]+' '+analysis.pct[2]+'%</span>'+
+            '<span class="text-blue-400">'+nameToFlag(m.away,16)+' '+analysis.pct[2]+'%</span>'+
           '</div>'+
           '<div class="flex h-2 rounded-full overflow-hidden bg-zinc-800">'+
             '<div class="bg-gradient-to-r from-amber-400 to-amber-500 rounded-l-full" style="width:'+analysis.pct[0]+'%"></div>'+
@@ -1089,9 +1089,9 @@ function renderPredMatches(){
           '<div class="bg-zinc-800/20 rounded-xl p-4 border border-zinc-800/40">'+
             '<p class="text-xs text-zinc-500 mb-3 font-medium uppercase tracking-wider">Ton pronostic — Score exact</p>'+
             '<div class="flex items-center justify-center gap-3 mb-3">'+
-              '<div class="text-center"><span class="text-[10px] text-zinc-500 block mb-1">'+m.home.split(' ')[0]+'</span><input type="number" min="0" max="15" value="0" id="'+matchId+'-h" class="w-14 h-12 bg-zinc-800 border border-zinc-700 rounded-xl text-center text-xl font-bold text-white focus:border-amber-500 transition"/></div>'+
+              '<div class="text-center"><span class="text-[10px] text-zinc-500 block mb-1">'+m.home.substring(0,8)+'</span><input type="number" min="0" max="15" value="0" id="'+matchId+'-h" class="w-14 h-12 bg-zinc-800 border border-zinc-700 rounded-xl text-center text-xl font-bold text-white focus:border-amber-500 transition"/></div>'+
               '<span class="text-zinc-600 font-bold text-lg mt-3">—</span>'+
-              '<div class="text-center"><span class="text-[10px] text-zinc-500 block mb-1">'+m.away.split(' ')[0]+'</span><input type="number" min="0" max="15" value="0" id="'+matchId+'-a" class="w-14 h-12 bg-zinc-800 border border-zinc-700 rounded-xl text-center text-xl font-bold text-white focus:border-amber-500 transition"/></div>'+
+              '<div class="text-center"><span class="text-[10px] text-zinc-500 block mb-1">'+m.away.substring(0,8)+'</span><input type="number" min="0" max="15" value="0" id="'+matchId+'-a" class="w-14 h-12 bg-zinc-800 border border-zinc-700 rounded-xl text-center text-xl font-bold text-white focus:border-amber-500 transition"/></div>'+
               '<div class="ml-4"><span class="text-[10px] text-zinc-500 block mb-1">Mise (pts)</span><input type="number" min="10" max="'+(state.user?.points||0)+'" step="10" value="20" id="'+matchId+'-pts" class="w-20 h-12 bg-zinc-800 border border-zinc-700 rounded-xl text-center text-sm font-bold text-amber-400 focus:border-amber-500 transition"/></div>'+
             '</div>'+
             '<button onclick="submitPrediction(\''+matchId+'\',\''+m.home.replace(/'/g,'\\\'')+m.away.replace(/'/g,'\\\'')+'\',\''+m.date.replace(/'/g,'\\\'')+'\')" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-xl transition-all text-sm '+(state.user?'':'opacity-50 cursor-not-allowed')+'">'+(state.user?'Valider mon pronostic':'Connecte-toi pour prédire')+'</button>'+
