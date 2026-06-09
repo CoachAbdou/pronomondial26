@@ -1609,20 +1609,7 @@ function renderPronoCards(){
   }).join('');
 }
 
-// Navigation arrows to cycle through cards
-let pronoPage = 0;
-function // cyclePronoCards_removed(dir){
-  pronoPage = (pronoPage + dir + Math.ceil(pronoCardData.length/2)) % Math.ceil(pronoCardData.length/2);
-  const container = document.getElementById('home-prono-cards');
-  if(!container) return;
-  const start = pronoPage * 2;
-  const cards = pronoCardData.slice(start, start+2);
-  // Re-render with new cards
-  const oldCards = pronoCardData.slice(0,2);
-  pronoCardData.splice(0, pronoCardData.length, ...pronoCardData.slice(start).concat(pronoCardData.slice(0,start)));
-  renderPronoCards();
-  pronoCardData.splice(0, pronoCardData.length, ...pronoCardData); // keep order
-}
+
 
 
     function renderHomeMarkets(){
