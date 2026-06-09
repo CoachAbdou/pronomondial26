@@ -1353,49 +1353,199 @@ function onMarketClick(id){
 // ═══════════════════════════════════════════════════
 // HOME PRONO CARDS (style CAN 2025)
 // ═══════════════════════════════════════════════════
-const pronoCardData = [
-  {
-    stage:'PHASE DE GROUPES | J1',
-    home:{flag:'🇧🇷',name:'BRÉSIL',strengths:['Qualité technique','Jeu offensif','Expérience']},
-    away:{flag:'🇲🇦',name:'MAROC',strengths:['Défense de fer','Collectif soudé','Contre-attaques']},
-    key:{title:'CLÉ DU MATCH',icon:'🔑',text:'La solidité défensive du Maroc face à la créativité brésilienne'},
-    pronostic:{insight:'Le Maroc peut tenir en défense mais le Brésil a les armes pour débloquer',score:'1 - 0',verdict:'BRÉSIL FAVORI'},
-    venue:'MetLife Stadium, East Rutherford',time:'14 Juin · 01:00'
-  },
-  {
-    stage:'PHASE DE GROUPES | J1',
-    home:{flag:'🇫🇷',name:'FRANCE',strengths:['Mbappé en pointe','Profondeur de banc','Expérience finale']},
-    away:{flag:'🇸🇳',name:'SÉNÉGAL',strengths:['Physique imposant','Vitesse en contre','Champions d\'Afrique']},
-    key:{title:'CLÉ TACTIQUE',icon:'⚡',text:'Le pressing haut français face au bloc sénégalais'},
-    pronostic:{insight:'La France maîtrise souvent ses débuts de compétition',score:'2 - 1',verdict:'FRANCE FAVORITE'},
-    venue:'MetLife Stadium, East Rutherford',time:'16 Juin · 22:00'
-  },
-  {
-    stage:'PHASE DE GROUPES | J1',
-    home:{flag:'🇦🇷',name:'ARGENTINE',strengths:['Championne en titre','Possession maîtrisée','Mental d\'acier']},
-    away:{flag:'🇩🇿',name:'ALGÉRIE',strengths:['Combativité','Supporters passionnés','Jeu direct']},
-    key:{title:'CLÉ DU MATCH',icon:'🎯',text:'La gestion du match par l\'Argentine face à l\'intensité algérienne'},
-    pronostic:{insight:'L\'écart de niveau devrait se faire sentir en 2ème mi-temps',score:'2 - 0',verdict:'ARGENTINE NETTE FAVORITE'},
-    venue:'Arrowhead Stadium, Kansas City',time:'17 Juin · 04:00'
-  },
-  {
-    stage:'PHASE DE GROUPES | J1',
-    home:{flag:'🇲🇽',name:'MEXIQUE',strengths:['Avantage du terrain','Public Azteca 87K','Motivation maximale']},
-    away:{flag:'🇿🇦',name:'AFR. DU SUD',strengths:['Rien à perdre','Jeu physique','Discipline défensive']},
-    key:{title:'CLÉ TACTIQUE',icon:'🏟️',text:'Le 12ème homme: 87 523 supporters à l\'Estadio Azteca'},
-    pronostic:{insight:'Match d\'ouverture souvent prudent mais le Mexique pousse devant son public',score:'1 - 0',verdict:'MEXIQUE À DOMICILE'},
-    venue:'Estadio Azteca, Mexico',time:'11 Juin · 22:00'
-  },
-];
 
+// ═══════════════════════════════════════════════════
+// PRONOSTICS DU JOUR — DYNAMIQUE (date/heure système)
+// ═══════════════════════════════════════════════════
 
-function goToProno(){
-  navigateTo('home');
-  setTimeout(function(){
-    var el = document.getElementById('prono-du-jour');
-    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
-  }, 150);
+const monthMap = {'Juin':5,'Juil.':6,'Juillet':6,'Juil':6};
+
+function parseMatchDate(dateStr, timeStr) {
+  // dateStr: "11 Juin", "01 Juil." etc. | timeStr: "22:00"
+  const parts = dateStr.trim().split(' ');
+  const day = parseInt(parts[0]);
+  const monthName = parts[1] || 'Juin';
+  const month = monthMap[monthName.replace('.','')]  || 5; // default June
+  const timeParts = (timeStr||'00:00').split(':');
+  const h = parseInt(timeParts[0]) || 0;
+  const m = parseInt(timeParts[1]) || 0;
+  return new Date(2026, month, day, h, m, 0);
 }
+
+function formatDateLabel(date) {
+  const days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  const months = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
+  return days[date.getDay()] + ' ' + date.getDate() + ' ' + months[date.getMonth()];
+}
+
+function getTodayMatches() {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate()+1);
+  
+  // Filter group stage matches for today
+  let todayMatches = calendarData.filter(function(m) {
+    if(m.stage !== 'group') return false;
+    var md = parseMatchDate(m.date, m.time);
+    return md >= today && md < tomorrow;
+  });
+  
+  // If no matches today, find next day with matches
+  if(todayMatches.length === 0) {
+    var allDates = calendarData
+      .filter(function(m){ return m.stage==='group'; })
+      .map(function(m){ return parseMatchDate(m.date, m.time); })
+      .sort(function(a,b){ return a-b; });
+    
+    // Find next date >= today
+    var nextDate = null;
+    for(var i=0; i<allDates.length; i++) {
+      if(allDates[i] >= today) { nextDate = allDates[i]; break; }
+    }
+    
+    // If all matches are past, show last day
+    if(!nextDate && allDates.length) {
+      nextDate = allDates[allDates.length - 1];
+    }
+    
+    if(nextDate) {
+      var nextDay = new Date(nextDate.getFullYear(), nextDate.getMonth(), nextDate.getDate());
+      var nextDayEnd = new Date(nextDay); nextDayEnd.setDate(nextDayEnd.getDate()+1);
+      todayMatches = calendarData.filter(function(m) {
+        if(m.stage !== 'group') return false;
+        var md = parseMatchDate(m.date, m.time);
+        return md >= nextDay && md < nextDayEnd;
+      });
+    }
+  }
+  
+  return todayMatches;
+}
+
+function getMatchStatus(dateStr, timeStr) {
+  var now = new Date();
+  var matchTime = parseMatchDate(dateStr, timeStr);
+  var matchEnd = new Date(matchTime.getTime() + 120*60000); // ~2h après le coup d'envoi
+  var dayStart = new Date(matchTime.getFullYear(), matchTime.getMonth(), matchTime.getDate(), 0, 0, 1);
+  
+  if(now < dayStart) return {status:'upcoming', label:'À VENIR', color:'text-zinc-500', bg:'bg-zinc-700/50'};
+  if(now >= dayStart && now < matchTime) return {status:'open', label:'PRÉDICTIONS OUVERTES', color:'text-amber-400', bg:'bg-amber-500/10 border-amber-500/20', dot:true};
+  if(now >= matchTime && now < matchEnd) return {status:'live', label:'EN COURS — FERMÉ', color:'text-red-400', bg:'bg-red-500/10 border-red-500/20', dot:true};
+  return {status:'finished', label:'TERMINÉ', color:'text-zinc-500', bg:'bg-zinc-700/50'};
+}
+
+function getTimeUntilMatch(dateStr, timeStr) {
+  var now = new Date();
+  var matchTime = parseMatchDate(dateStr, timeStr);
+  var diff = matchTime - now;
+  if(diff <= 0) return null;
+  var h = Math.floor(diff / 3600000);
+  var m = Math.floor((diff % 3600000) / 60000);
+  if(h > 24) return Math.floor(h/24) + 'j ' + (h%24) + 'h';
+  if(h > 0) return h + 'h ' + m + 'min';
+  return m + 'min';
+}
+
+function buildPronoCard(m, idx) {
+  var analysis = getTeamAnalysis(m.home, m.away);
+  var status = getMatchStatus(m.date, m.time);
+  var countdown = getTimeUntilMatch(m.date, m.time);
+  
+  var statusBadge = '<span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full ' + status.bg + ' border text-[10px] font-bold ' + status.color + '">';
+  if(status.dot) statusBadge += '<span class="w-1.5 h-1.5 rounded-full bg-current pulse-dot"></span>';
+  statusBadge += status.label + '</span>';
+  
+  var countdownHtml = countdown ? '<span class="text-[10px] text-amber-400 font-mono">⏱ ' + countdown + '</span>' : '';
+  
+  // Score prediction from analysis tips
+  var scoreParts = analysis.tips.match(/(\d+[\s-]+\d+)/);
+  var suggestedScore = scoreParts ? scoreParts[1].replace(/\s+/g,' ') : '? - ?';
+  // Clean up: take first score mentioned
+  var firstScore = analysis.tips.match(/(\d)\s*[-–]\s*(\d)/);
+  if(firstScore) suggestedScore = firstScore[1] + ' - ' + firstScore[2];
+  
+  var homeTeam = m.home.split(' '); var homeName = m.home.replace(homeTeam[0]+' ','');
+  var awayTeam = m.away.split(' '); var awayName = m.away.replace(awayTeam[0]+' ','');
+
+  return '<div class="prono-card slide-in" style="animation-delay:'+(idx*0.12)+'s">'+
+    '<div class="prono-card-header px-4 py-2.5 flex items-center justify-between">'+
+      '<span class="prono-badge">COUPE DU MONDE 2026</span>'+
+      statusBadge+
+    '</div>'+
+    '<div class="px-5 py-5">'+
+      '<div class="flex items-center justify-between text-center mb-1">'+
+        '<span class="text-[11px] text-zinc-500 flex-1">'+m.date+' · '+m.time+'</span>'+
+        countdownHtml+
+      '</div>'+
+      '<div class="flex items-center justify-between mb-5 mt-3">'+
+        '<div class="flex flex-col items-center gap-2 flex-1">'+
+          '<div class="team-flag-large">'+homeTeam[0]+'</div>'+
+          '<span class="text-sm font-bold text-white tracking-wide">'+homeName.split(' ')[0]+'</span>'+
+        '</div>'+
+        '<div class="px-3"><span class="text-xs font-bold text-zinc-600 bg-zinc-800/80 px-3 py-1.5 rounded-lg">VS</span></div>'+
+        '<div class="flex flex-col items-center gap-2 flex-1">'+
+          '<div class="team-flag-large">'+awayTeam[0]+'</div>'+
+          '<span class="text-sm font-bold text-white tracking-wide">'+awayName.split(' ')[0]+'</span>'+
+        '</div>'+
+      '</div>'+
+      '<div class="key-section px-4 py-3 mb-4">'+
+        '<div class="flex items-center gap-2 mb-1.5">'+
+          '<span>🔑</span><span class="text-xs font-bold text-amber-400 uppercase tracking-wider">CLÉ DU MATCH</span>'+
+        '</div>'+
+        '<p class="text-[12px] text-zinc-300 leading-relaxed">'+analysis.analysis.substring(0,180)+'...</p>'+
+      '</div>'+
+      '<div class="mb-4">'+
+        '<div class="flex justify-between text-[11px] font-medium mb-1.5">'+
+          '<span class="text-amber-400">'+homeName.split(' ')[0]+' '+analysis.pct[0]+'%</span>'+
+          '<span class="text-zinc-500">Nul '+analysis.pct[1]+'%</span>'+
+          '<span class="text-blue-400">'+awayName.split(' ')[0]+' '+analysis.pct[2]+'%</span>'+
+        '</div>'+
+        '<div class="flex h-2 rounded-full overflow-hidden bg-zinc-800">'+
+          '<div class="bg-gradient-to-r from-amber-400 to-amber-500 rounded-l-full" style="width:'+analysis.pct[0]+'%"></div>'+
+          '<div class="bg-zinc-600 mx-px" style="width:'+analysis.pct[1]+'%"></div>'+
+          '<div class="bg-gradient-to-r from-blue-500 to-blue-400 rounded-r-full" style="width:'+analysis.pct[2]+'%"></div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="text-center mb-2">'+
+        '<p class="text-[10px] font-bold text-amber-400 uppercase tracking-widest mb-1">⚠️ PRONOSTIC EXPERT</p>'+
+        '<p class="text-[11px] text-zinc-400 mb-2">'+analysis.tips.substring(0,120)+'</p>'+
+        '<div class="prono-score">'+suggestedScore+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="verdict-bar px-4 py-2.5 text-center">'+
+      '<span class="text-xs font-bold text-amber-400 uppercase tracking-widest">🏆 '+analysis.verdict.toUpperCase()+'</span>'+
+    '</div>'+
+    '<div class="px-4 py-2 text-center border-t border-zinc-800/30">'+
+      '<span class="text-[10px] text-zinc-600">📍 '+m.venue+'</span>'+
+    '</div>'+
+  '</div>';
+}
+
+function renderPronoCards() {
+  var container = document.getElementById('home-prono-cards');
+  if(!container) return;
+  
+  var matches = getTodayMatches();
+  
+  // Update section title with current date info
+  var titleEl = document.querySelector('#prono-du-jour h2');
+  var subtitleEl = document.querySelector('#prono-du-jour p');
+  if(matches.length > 0) {
+    var firstMatchDate = parseMatchDate(matches[0].date, matches[0].time);
+    var now = new Date();
+    var isToday = firstMatchDate.toDateString() === now.toDateString();
+    if(titleEl) titleEl.textContent = isToday ? 'Pronostics du jour' : 'Prochains pronostics';
+    if(subtitleEl) subtitleEl.textContent = formatDateLabel(firstMatchDate) + ' — ' + matches.length + ' match' + (matches.length>1?'s':'') + ' analysé' + (matches.length>1?'s':'');
+  } else {
+    if(titleEl) titleEl.textContent = 'Pronostics';
+    if(subtitleEl) subtitleEl.textContent = 'Aucun match prévu prochainement';
+  }
+  
+  container.innerHTML = matches.slice(0,4).map(function(m,i){ return buildPronoCard(m,i); }).join('');
+}
+
+// Auto-refresh every minute to update countdowns and statuses
+setInterval(function(){ renderPronoCards(); }, 60000);
 
 function renderPronoCards(){
   const container = document.getElementById('home-prono-cards');
@@ -1461,7 +1611,7 @@ function renderPronoCards(){
 
 // Navigation arrows to cycle through cards
 let pronoPage = 0;
-function cyclePronoCards(dir){
+function // cyclePronoCards_removed(dir){
   pronoPage = (pronoPage + dir + Math.ceil(pronoCardData.length/2)) % Math.ceil(pronoCardData.length/2);
   const container = document.getElementById('home-prono-cards');
   if(!container) return;
