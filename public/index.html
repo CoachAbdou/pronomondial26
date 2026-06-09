@@ -565,18 +565,18 @@ const topTeams = [
     ];
 
     const allMarkets = [
-  { id:1, team1Flag:'🇫🇷', team2Flag:'🌍', question:'La France va-t-elle remporter la Coupe du Monde 2026 ?', yesPercent:22, totalBets:8432, trend:'up', hot:true, cat:'winner' },
-  { id:2, team1Flag:'🇦🇷', team2Flag:'🌍', question:"L'Argentine va-t-elle défendre son titre ?", yesPercent:28, totalBets:12840, trend:'up', hot:false, cat:'winner' },
-  { id:3, team1Flag:'🇧🇷', team2Flag:'🌍', question:'Le Brésil va-t-il atteindre la finale ?', yesPercent:35, totalBets:6291, trend:'down', hot:false, cat:'stage' },
-  { id:4, team1Flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', team2Flag:'🌍', question:"L'Angleterre va-t-elle dépasser les quarts ?", yesPercent:52, totalBets:4150, trend:'up', hot:true, cat:'stage' },
-  { id:5, team1Flag:'🇲🇦', team2Flag:'🌍', question:'Le Maroc va-t-il atteindre les demi-finales ?', yesPercent:31, totalBets:9720, trend:'up', hot:true, cat:'stage' },
-  { id:6, team1Flag:'🇪🇸', team2Flag:'🌍', question:"L'Espagne fait-elle partie du top 4 ?", yesPercent:45, totalBets:5630, trend:'down', hot:false, cat:'stage' },
-  { id:7, team1Flag:'🇩🇪', team2Flag:'🌍', question:"L'Allemagne sortira-t-elle de la phase de groupes ?", yesPercent:78, totalBets:3210, trend:'up', hot:false, cat:'stage' },
-  { id:8, team1Flag:'🇵🇹', team2Flag:'🌍', question:'Le Portugal atteindra-t-il les quarts de finale ?', yesPercent:62, totalBets:4890, trend:'up', hot:false, cat:'stage' },
-  { id:9, team1Flag:'⚽', team2Flag:'👤', question:'Mbappé sera-t-il le meilleur buteur ?', yesPercent:18, totalBets:15200, trend:'up', hot:true, cat:'player' },
-  { id:10, team1Flag:'⚽', team2Flag:'👤', question:'Haaland marquera-t-il plus de 5 buts ?', yesPercent:25, totalBets:8900, trend:'down', hot:false, cat:'player' },
-  { id:11, team1Flag:'⚽', team2Flag:'👤', question:'Vinicius Jr remportera-t-il le Ballon d\'Or du tournoi ?', yesPercent:15, totalBets:7100, trend:'up', hot:false, cat:'player' },
-  { id:12, team1Flag:'🇺🇸', team2Flag:'🌍', question:'Le pays hôte (USA) atteindra-t-il les quarts ?', yesPercent:40, totalBets:11300, trend:'up', hot:true, cat:'stage' },
+  { id:1, team1Flag:'France', team2Flag:'Monde', question:'La France va-t-elle remporter la Coupe du Monde 2026 ?', yesPercent:22, totalBets:8432, trend:'up', hot:true, cat:'winner' },
+  { id:2, team1Flag:'Argentine', team2Flag:'Monde', question:"L'Argentine va-t-elle défendre son titre ?", yesPercent:28, totalBets:12840, trend:'up', hot:false, cat:'winner' },
+  { id:3, team1Flag:'Brésil', team2Flag:'Monde', question:'Le Brésil va-t-il atteindre la finale ?', yesPercent:35, totalBets:6291, trend:'down', hot:false, cat:'stage' },
+  { id:4, team1Flag:'Angleterre', team2Flag:'Monde', question:"L'Angleterre va-t-elle dépasser les quarts ?", yesPercent:52, totalBets:4150, trend:'up', hot:true, cat:'stage' },
+  { id:5, team1Flag:'Maroc', team2Flag:'Monde', question:'Le Maroc va-t-il atteindre les demi-finales ?', yesPercent:31, totalBets:9720, trend:'up', hot:true, cat:'stage' },
+  { id:6, team1Flag:'Espagne', team2Flag:'Monde', question:"L'Espagne fait-elle partie du top 4 ?", yesPercent:45, totalBets:5630, trend:'down', hot:false, cat:'stage' },
+  { id:7, team1Flag:'Allemagne', team2Flag:'Monde', question:"L'Allemagne sortira-t-elle de la phase de groupes ?", yesPercent:78, totalBets:3210, trend:'up', hot:false, cat:'stage' },
+  { id:8, team1Flag:'Portugal', team2Flag:'Monde', question:'Le Portugal atteindra-t-il les quarts de finale ?', yesPercent:62, totalBets:4890, trend:'up', hot:false, cat:'stage' },
+  { id:9, team1Flag:'Football', team2Flag:'Joueur', question:'Mbappé sera-t-il le meilleur buteur ?', yesPercent:18, totalBets:15200, trend:'up', hot:true, cat:'player' },
+  { id:10, team1Flag:'Football', team2Flag:'Joueur', question:'Haaland marquera-t-il plus de 5 buts ?', yesPercent:25, totalBets:8900, trend:'down', hot:false, cat:'player' },
+  { id:11, team1Flag:'Football', team2Flag:'Joueur', question:'Vinicius Jr remportera-t-il le Ballon d\'Or du tournoi ?', yesPercent:15, totalBets:7100, trend:'up', hot:false, cat:'player' },
+  { id:12, team1Flag:'États-Unis', team2Flag:'Monde', question:'Le pays hôte (USA) atteindra-t-il les quarts ?', yesPercent:40, totalBets:11300, trend:'up', hot:true, cat:'stage' },
 ];
 
 const groups = {
@@ -815,7 +815,7 @@ function openModal(type, data){
     const userBet=state.user?.bets?.find(b=>b.marketId===m.id);
     content.innerHTML=`
       <button onclick="closeModal()" class="absolute top-4 right-4 text-zinc-500 hover:text-white text-xl">✕</button>
-      <div class="flex items-center gap-2 mb-4"><span class="text-2xl">${m.team1Flag}</span><span class="text-zinc-600 text-sm">vs</span><span class="text-2xl">${m.team2Flag}</span></div>
+      <div class="flex items-center gap-2 mb-4">${nameToFlag(m.team1Flag,28)}<span class="text-zinc-600 text-sm">vs</span>${nameToFlag(m.team2Flag,28)}</div>
       <h2 class="text-base font-bold mb-4">${m.question}</h2>
       <div class="flex gap-3 mb-4">
         <div class="flex-1 text-center p-3 rounded-xl border ${!userBet?'border-zinc-700':'border-amber-500/30'} bg-zinc-800/50">
@@ -1135,7 +1135,7 @@ function marketCardHTML(m){
     <div class="market-card relative rounded-2xl border border-zinc-800/80 bg-gradient-to-br from-zinc-900/90 to-zinc-950/90 p-5 sm:p-6 backdrop-blur-xl cursor-pointer overflow-hidden" onclick="onMarketClick(${m.id})">
       ${hotBadge}${betBadge}
       <div class="flex items-center gap-3 mb-4">
-        <span class="text-2xl">${m.team1Flag}</span><span class="text-zinc-600 text-sm font-medium">vs</span><span class="text-2xl">${m.team2Flag}</span>
+        ${nameToFlag(m.team1Flag,28)}<span class="text-zinc-600 text-sm font-medium">vs</span>${nameToFlag(m.team2Flag,28)}
         <div class="ml-auto flex items-center gap-1 text-xs text-zinc-500">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           ${m.totalBets.toLocaleString()}</div>
@@ -1167,40 +1167,56 @@ function onMarketClick(id){
     var mmap = {Juin:5,'Juil.':6,Juil:6};
     function parseMD(d,t){var p=d.trim().split(' ');var day=parseInt(p[0]);var mo=mmap[(p[1]||'Juin').replace('.','')]||5;var tp=(t||'00:00').split(':');return new Date(2026,mo,day,parseInt(tp[0])||0,parseInt(tp[1])||0)}
     
-    // ═══ FLAGS CDN (reliable across all platforms) ═══
-    var flagCodes={
-      '🇲🇽':'mx','🇿🇦':'za','🇰🇷':'kr','🇨🇿':'cz','🇨🇦':'ca','🇨🇭':'ch','🇶🇦':'qa','🇧🇦':'ba',
-      '🇧🇷':'br','🇲🇦':'ma','🇭🇹':'ht','🇺🇸':'us','🇵🇾':'py','🇦🇺':'au','🇹🇷':'tr',
-      '🇩🇪':'de','🇨🇼':'cw','🇨🇮':'ci','🇪🇨':'ec','🇳🇱':'nl','🇯🇵':'jp','🇹🇳':'tn','🇸🇪':'se',
-      '🇧🇪':'be','🇪🇬':'eg','🇮🇷':'ir','🇳🇿':'nz','🇪🇸':'es','🇨🇻':'cv','🇸🇦':'sa','🇺🇾':'uy',
-      '🇫🇷':'fr','🇸🇳':'sn','🇳🇴':'no','🇮🇶':'iq','🇦🇷':'ar','🇩🇿':'dz','🇦🇹':'at','🇯🇴':'jo',
-      '🇵🇹':'pt','🇺🇿':'uz','🇨🇴':'co','🇨🇩':'cd','🇬🇭':'gh','🇵🇦':'pa','🇭🇷':'hr',
-      '🌍':'un','⚽':'un','👤':'un'
+    // ═══ FLAGS CDN (by country name - immune to emoji encoding issues) ═══
+    var nameToCode={
+      'Mexique':'mx','Afrique du Sud':'za','Afrique':'za','Corée du Sud':'kr','Tchéquie':'cz',
+      'Canada':'ca','Suisse':'ch','Qatar':'qa','Bosnie-Herzégovine':'ba','Bosnie':'ba',
+      'Brésil':'br','Maroc':'ma','Haïti':'ht','Écosse':'gb-sct',
+      'États-Unis':'us','Paraguay':'py','Australie':'au','Turquie':'tr',
+      'Allemagne':'de','Curaçao':'cw','Côte d\'Ivoire':'ci','Équateur':'ec',
+      'Pays-Bas':'nl','Japon':'jp','Tunisie':'tn','Suède':'se',
+      'Belgique':'be','Égypte':'eg','Iran':'ir','Nouvelle-Zélande':'nz','Nlle-Zélande':'nz',
+      'Espagne':'es','Cap-Vert':'cv','Arabie Saoudite':'sa','Arabie':'sa','Uruguay':'uy',
+      'France':'fr','Sénégal':'sn','Norvège':'no','Irak':'iq',
+      'Argentine':'ar','Algérie':'dz','Autriche':'at','Jordanie':'jo',
+      'Portugal':'pt','Ouzbékistan':'uz','Colombie':'co','RD Congo':'cd',
+      'Angleterre':'gb-eng','Croatie':'hr','Ghana':'gh','Panama':'pa',
+      'AFR. DU SUD':'za','BRÉSIL':'br','MAROC':'ma','FRANCE':'fr','SÉNÉGAL':'sn',
+      'ARGENTINE':'ar','ALGÉRIE':'dz','MEXIQUE':'mx','AFRIQUE DU SUD':'za',
+      'Nlle':'nz','du':'za','Football':'un','Monde':'un','Joueur':'un'
     };
-    // England and Scotland flags need special handling
-    function flagImg(emoji, size) {
+    function nameToFlag(name, size) {
       size = size || 40;
-      var code = flagCodes[emoji];
+      var n = (name||'').trim();
+      var code = nameToCode[n];
       if(!code) {
-        var s = emoji || '';
-        if(s.length > 4) {
-          var cp = [];
-          for(var i=0;i<s.length;i++){var c=s.codePointAt(i);if(c>0xFFFF)i++;cp.push(c)}
-          var hasE = cp.indexOf(0xE0065) >= 0;
-          var hasS = cp.indexOf(0xE0073) >= 0 && cp.indexOf(0xE0063) >= 0;
-          if(hasE) code = 'gb-eng';
-          else if(hasS) code = 'gb-sct';
-          else code = 'gb';
+        // Try partial match
+        for(var k in nameToCode) {
+          if(n.indexOf(k) >= 0 || k.indexOf(n) >= 0) { code = nameToCode[k]; break; }
         }
-        if(!code) code = 'un';
       }
-      return '<img src="https://flagcdn.com/w80/'+code+'.png" width="'+size+'" height="'+Math.round(size*0.67)+'" alt="'+code+'" style="border-radius:4px;object-fit:cover;display:inline-block" onerror="this.style.display=\'none\'">';
+      if(!code) code = 'un';
+      var h = Math.round(size * 0.67);
+      return '<img src="https://flagcdn.com/w80/'+code+'.png" width="'+size+'" height="'+h+'" alt="'+n+'" style="border-radius:4px;object-fit:cover;display:inline-block" onerror="this.alt=\''+n.substring(0,3)+'\';">';
+    }
+    // Extract country name from match string like "🇧🇷 Brésil" or "🇲🇦 Maroc"  
+    function getCountryName(str) {
+      if(!str) return '';
+      var parts = str.trim().split(' ');
+      if(parts.length > 1) return parts.slice(1).join(' ');
+      return parts[0];
+    }
+    function flagFromMatch(matchStr, size) {
+      return nameToFlag(getCountryName(matchStr), size);
+    }
+    function flagInline(matchStr) {
+      return nameToFlag(getCountryName(matchStr), 20);
+    }
+    // Keep flagImg as alias for backward compat
+    function flagImg(emoji, size) {
+      return nameToFlag(getCountryName(emoji), size);
     }
 
-    // For text contexts (inline with text)
-    function flagInline(emoji) {
-      return flagImg(emoji, 24);
-    }
 
     function goToProno(){navigateTo('home');setTimeout(function(){var el=document.getElementById('prono-du-jour');if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},200)}
     function getTodayM(){
@@ -1379,7 +1395,7 @@ function renderProfile(){
     ${u.bets.length?`<div class="space-y-2">${u.bets.slice().reverse().map(b=>{
       const m=allMarkets.find(x=>x.id===b.marketId);
       return `<div class="bg-zinc-900/50 border border-zinc-800/60 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
-        <div class="flex items-center gap-2 flex-1"><span class="text-lg">${m?.team1Flag||'⚽'}</span><span class="text-sm text-zinc-200 font-medium">${m?.question||'Marché inconnu'}</span></div>
+        <div class="flex items-center gap-2 flex-1">${nameToFlag(m?.team1Flag||'Football',24)}<span class="text-sm text-zinc-200 font-medium">${m?.question||'Marché inconnu'}</span></div>
         <div class="flex items-center gap-3">
           <span class="text-xs px-2 py-1 rounded-full ${b.choice==='Oui'?'bg-amber-500/10 text-amber-400 border border-amber-500/20':'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">${b.choice}</span>
           <span class="text-sm font-bold text-zinc-300">${b.amount} pts</span>
