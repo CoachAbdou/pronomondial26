@@ -1166,6 +1166,42 @@ function onMarketClick(id){
     // ═══ PRONOSTICS DU JOUR ═══
     var mmap = {Juin:5,'Juil.':6,Juil:6};
     function parseMD(d,t){var p=d.trim().split(' ');var day=parseInt(p[0]);var mo=mmap[(p[1]||'Juin').replace('.','')]||5;var tp=(t||'00:00').split(':');return new Date(2026,mo,day,parseInt(tp[0])||0,parseInt(tp[1])||0)}
+    
+    // ═══ FLAGS CDN (reliable across all platforms) ═══
+    var flagCodes={
+      '🇲🇽':'mx','🇿🇦':'za','🇰🇷':'kr','🇨🇿':'cz','🇨🇦':'ca','🇨🇭':'ch','🇶🇦':'qa','🇧🇦':'ba',
+      '🇧🇷':'br','🇲🇦':'ma','🇭🇹':'ht','🇺🇸':'us','🇵🇾':'py','🇦🇺':'au','🇹🇷':'tr',
+      '🇩🇪':'de','🇨🇼':'cw','🇨🇮':'ci','🇪🇨':'ec','🇳🇱':'nl','🇯🇵':'jp','🇹🇳':'tn','🇸🇪':'se',
+      '🇧🇪':'be','🇪🇬':'eg','🇮🇷':'ir','🇳🇿':'nz','🇪🇸':'es','🇨🇻':'cv','🇸🇦':'sa','🇺🇾':'uy',
+      '🇫🇷':'fr','🇸🇳':'sn','🇳🇴':'no','🇮🇶':'iq','🇦🇷':'ar','🇩🇿':'dz','🇦🇹':'at','🇯🇴':'jo',
+      '🇵🇹':'pt','🇺🇿':'uz','🇨🇴':'co','🇨🇩':'cd','🇬🇭':'gh','🇵🇦':'pa','🇭🇷':'hr',
+      '🌍':'un','⚽':'un','👤':'un'
+    };
+    // England and Scotland flags need special handling
+    function flagImg(emoji, size) {
+      size = size || 40;
+      var code = flagCodes[emoji];
+      if(!code) {
+        var s = emoji || '';
+        if(s.length > 4) {
+          var cp = [];
+          for(var i=0;i<s.length;i++){var c=s.codePointAt(i);if(c>0xFFFF)i++;cp.push(c)}
+          var hasE = cp.indexOf(0xE0065) >= 0;
+          var hasS = cp.indexOf(0xE0073) >= 0 && cp.indexOf(0xE0063) >= 0;
+          if(hasE) code = 'gb-eng';
+          else if(hasS) code = 'gb-sct';
+          else code = 'gb';
+        }
+        if(!code) code = 'un';
+      }
+      return '<img src="https://flagcdn.com/w80/'+code+'.png" width="'+size+'" height="'+Math.round(size*0.67)+'" alt="'+code+'" style="border-radius:4px;object-fit:cover;display:inline-block" onerror="this.style.display=\'none\'">';
+    }
+
+    // For text contexts (inline with text)
+    function flagInline(emoji) {
+      return flagImg(emoji, 24);
+    }
+
     function goToProno(){navigateTo('home');setTimeout(function(){var el=document.getElementById('prono-du-jour');if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},200)}
     function getTodayM(){
       var now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate()),tom=new Date(today);tom.setDate(tom.getDate()+1);
