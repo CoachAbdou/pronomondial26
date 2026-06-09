@@ -1253,9 +1253,9 @@ function onMarketClick(id){
         return '<div class="prono-card slide-in" style="animation-delay:'+(idx*0.1)+'s">'+
           '<div class="prono-card-hdr px-4 py-2.5 flex items-center justify-between"><span class="prono-badge">CDM 2026</span><span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full border '+st.b+' text-[10px] font-bold '+st.c+'">'+(st.d?'<span class="w-1.5 h-1.5 rounded-full bg-current pulse-dot"></span>':'')+st.l+'</span></div>'+
           '<div class="px-5 py-4"><div class="flex items-center justify-between text-center mb-1"><span class="text-[11px] text-zinc-500">'+m.date+' · '+m.time+'</span>'+(cd?'<span class="text-[10px] text-amber-400 font-mono">⏱ '+cd+'</span>':'')+'</div>'+
-          '<div class="flex items-center justify-between my-4"><div class="flex flex-col items-center gap-2 flex-1"><div class="tflag">'+ht[0]+'</div><span class="text-sm font-bold text-white">'+hn.split(' ')[0]+'</span></div><div class="px-3"><span class="text-xs font-bold text-zinc-600 bg-zinc-800/80 px-3 py-1.5 rounded-lg">VS</span></div><div class="flex flex-col items-center gap-2 flex-1"><div class="tflag">'+at[0]+'</div><span class="text-sm font-bold text-white">'+an.split(' ')[0]+'</span></div></div>'+
+          '<div class="flex items-center justify-between my-4"><div class="flex flex-col items-center gap-2 flex-1"><div class="tflag">'+nameToFlag(hn,42)+'</div><span class="text-sm font-bold text-white">'+hn+'</span></div><div class="px-3"><span class="text-xs font-bold text-zinc-600 bg-zinc-800/80 px-3 py-1.5 rounded-lg">VS</span></div><div class="flex flex-col items-center gap-2 flex-1"><div class="tflag">'+nameToFlag(an,42)+'</div><span class="text-sm font-bold text-white">'+an+'</span></div></div>'+
           '<div class="key-box px-4 py-3 mb-4"><div class="flex items-center gap-2 mb-1"><span>🔑</span><span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider">CLÉ DU MATCH</span></div><p class="text-[11px] text-zinc-300 leading-relaxed">'+a.analysis.substring(0,160)+'...</p></div>'+
-          '<div class="mb-3"><div class="flex justify-between text-[10px] font-medium mb-1"><span class="text-amber-400">'+hn.split(' ')[0]+' '+a.pct[0]+'%</span><span class="text-zinc-500">Nul '+a.pct[1]+'%</span><span class="text-blue-400">'+an.split(' ')[0]+' '+a.pct[2]+'%</span></div><div class="flex h-1.5 rounded-full overflow-hidden bg-zinc-800"><div class="bg-amber-400 rounded-l-full" style="width:'+a.pct[0]+'%"></div><div class="bg-zinc-600 mx-px" style="width:'+a.pct[1]+'%"></div><div class="bg-blue-400 rounded-r-full" style="width:'+a.pct[2]+'%"></div></div></div>'+
+          '<div class="mb-3"><div class="flex justify-between text-[10px] font-medium mb-1"><span class="text-amber-400">'+hn+' '+a.pct[0]+'%</span><span class="text-zinc-500">Nul '+a.pct[1]+'%</span><span class="text-blue-400">'+an+' '+a.pct[2]+'%</span></div><div class="flex h-1.5 rounded-full overflow-hidden bg-zinc-800"><div class="bg-amber-400 rounded-l-full" style="width:'+a.pct[0]+'%"></div><div class="bg-zinc-600 mx-px" style="width:'+a.pct[1]+'%"></div><div class="bg-blue-400 rounded-r-full" style="width:'+a.pct[2]+'%"></div></div></div>'+
           '<div class="text-center"><p class="text-[9px] font-bold text-amber-400 uppercase tracking-widest mb-1">PRONOSTIC</p><div class="pscore">'+ss+'</div></div></div>'+
           '<div class="vbar px-4 py-2 text-center"><span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">🏆 '+a.verdict+'</span></div>'+
           '<div class="px-4 py-1.5 text-center border-t border-zinc-800/30"><span class="text-[10px] text-zinc-600">📍 '+m.venue+'</span></div></div>'
@@ -1333,7 +1333,7 @@ function renderTeams(){
       <div class="divide-y divide-zinc-800/30">
         ${teams.map((t,i)=>`
           <div class="flex items-center gap-3 px-4 py-3 match-row">
-            <span class="text-xl">${t.flag}</span>
+            ${codeFlagImg(t.flag,28)}
             <div class="flex-1">
               <span class="text-sm font-medium text-zinc-200">${t.name}</span>
             </div>
@@ -1365,9 +1365,9 @@ function renderCalendar(){
     <div class="match-row bg-zinc-900/50 border border-zinc-800/60 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
       <div class="text-xs text-zinc-500 font-mono w-14 shrink-0">${m.time}</div>
       <div class="flex-1 flex items-center gap-3">
-        <span class="text-sm font-medium text-zinc-200 flex-1 text-right">${m.home}</span>
+        <span class="text-sm font-medium text-zinc-200 flex-1 text-right">${nameToFlag(m.home,22)} ${m.home}</span>
         <span class="text-xs font-bold text-zinc-600 bg-zinc-800 px-2 py-1 rounded-lg">VS</span>
-        <span class="text-sm font-medium text-zinc-200 flex-1">${m.away}</span>
+        <span class="text-sm font-medium text-zinc-200 flex-1">${nameToFlag(m.away,22)} ${m.away}</span>
       </div>
       <div class="text-[11px] text-zinc-500 sm:text-right sm:w-48 truncate">📍 ${m.venue}</div>
     </div>`}).join('');
