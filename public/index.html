@@ -2444,8 +2444,15 @@ function onMarketClick(id){
       // Update counters
       var el1 = document.getElementById('matches-played');
       var el2 = document.getElementById('matches-remaining');
+      var el3 = document.getElementById('total-goals');
       if(el1) el1.textContent = played;
       if(el2) el2.textContent = remaining;
+      // Count total goals from finished matches
+      var totalGoals = 0;
+      matchResults.forEach(function(r){
+        if(r.status === 'FT' && r.scoreH !== null) totalGoals += r.scoreH + r.scoreA;
+      });
+      if(el3) el3.textContent = totalGoals;
 
       // Next match countdown
       var next = getNextMatch();
@@ -2484,11 +2491,7 @@ function onMarketClick(id){
     
     // ═══ RÉSULTATS & CLASSEMENTS ═══
     // Match results (update after each match)
-    var matchResults = [
-      {date:'11 Juin',home:'Mexique',away:'Afrique du Sud',scoreH:2,scoreA:0,group:'A',status:'FT'},
-      {date:'12 Juin',home:'Coree du Sud',away:'Tchequie',scoreH:2,scoreA:1,group:'A',status:'FT'},
-      {date:'12 Juin',home:'Canada',away:'Bosnie-Herzegovine',scoreH:null,scoreA:null,group:'B',status:'upcoming'},
-    ];
+    var matchResults = []; // Loaded from Supabase dynamically
 
     function goToResults(){
       navigateTo('home');
@@ -2626,7 +2629,7 @@ function onMarketClick(id){
           var st = m.status === 'finished' ? 'FT' : m.status === 'live' ? 'live' : 'upcoming';
           
           var existing = matchResults.find(function(r){
-            return r.home === home && r.away === away;
+            return (r.home === home && r.away === away) || (r.home === away && r.away === home);
           });
           
           if(existing){
@@ -2664,6 +2667,19 @@ function onMarketClick(id){
     // Fetch every 2 min
     setInterval(fetchLiveScores, 120000);
     setTimeout(fetchLiveScores, 2000);
+
+    // Force-load admin role from Supabase
+    async function refreshUserRole(){
+      if(!sbReady || !state.user?.id) return;
+      var {data} = await sb.from('profiles').select('role').eq('id', state.user.id).single();
+      if(data && data.role){
+        state.user.role = data.role;
+        saveState();
+        updateAuthUI();
+      }
+    }
+    setTimeout(refreshUserRole, 1500);
+
 
 
     
