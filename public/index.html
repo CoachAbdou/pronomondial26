@@ -101,6 +101,20 @@
     .live-banner::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);animation:slide-shine 4s linear infinite}
     .next-match-card{transition:all 0.3s ease}.next-match-card:hover{border-color:rgba(212,175,55,0.3);transform:translateY(-1px)}
 
+    
+    .result-tab{background:rgba(255,255,255,0.05);color:#999;border:1px solid rgba(255,255,255,0.1)}
+    .result-tab.active{background:rgba(212,175,55,0.15);color:#d4af37;border-color:rgba(212,175,55,0.3)}
+    .result-tab:hover{color:#d4af37}
+    .standings-table{width:100%;border-collapse:separate;border-spacing:0}
+    .standings-table th{text-align:center;padding:8px 6px;font-size:11px;color:#999;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.1)}
+    .standings-table td{text-align:center;padding:10px 6px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+    .standings-table tr:hover td{background:rgba(212,175,55,0.03)}
+    .standings-table .team-cell{text-align:left;display:flex;align-items:center;gap:8px}
+    .pos-badge{width:22px;height:22px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+    .pos-1,.pos-2{background:rgba(34,197,94,0.15);color:#22c55e}
+    .pos-3{background:rgba(234,179,8,0.15);color:#eab308}
+    .pos-4{background:rgba(239,68,68,0.15);color:#ef4444}
+
     .prono-card{position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(212,175,55,0.15);background:linear-gradient(135deg,#0c1a0c 0%,#0a0f1a 50%,#1a0a0a 100%);transition:all 0.4s ease}
     .prono-card:hover{border-color:rgba(212,175,55,0.3);box-shadow:0 0 30px rgba(212,175,55,0.08);transform:translateY(-2px)}
     .prono-card-hdr{background:linear-gradient(90deg,rgba(212,175,55,0.1),rgba(212,175,55,0.2),rgba(212,175,55,0.1));border-bottom:1px solid rgba(212,175,55,0.15)}
@@ -127,13 +141,14 @@
     </a>
       
       <button onclick="goToProno()" class="prono-btn hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-white via-amber-50 to-white border border-amber-400/40 cursor-pointer ml-3"><span class="text-xs font-bold text-amber-600 whitespace-nowrap">🔥 Pronostics du jour 🔥</span></button>
+      <button onclick="goToResults()" class="prono-btn hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-white via-amber-50 to-white border border-amber-400/40 cursor-pointer ml-2"><span class="text-xs font-bold text-amber-600 whitespace-nowrap">📊 Resultats & Classements</span></button>
     <div class="hidden md:flex items-center gap-8">
       <a onclick="navigateTo('home')" class="nav-link relative text-sm text-zinc-400 transition-colors duration-300 cursor-pointer" data-page="home">Accueil</a>
       <a onclick="navigateTo('markets')" class="nav-link relative text-sm text-zinc-400 transition-colors duration-300 cursor-pointer" data-page="markets">Marchés</a>
       <a onclick="navigateTo('predictions')" class="nav-link relative text-sm text-zinc-400 transition-colors duration-300 cursor-pointer" data-page="predictions">Prédictions</a>
       <a onclick="navigateTo('leaderboard')" class="nav-link relative text-sm text-zinc-400 transition-colors duration-300 cursor-pointer" data-page="leaderboard">Classement</a>
-      <a onclick="navigateTo('teams')" class="nav-link relative text-sm text-zinc-400 transition-colors duration-300 cursor-pointer" data-page="teams">Équipes</a>
-      <a onclick="navigateTo('calendar')" class="nav-link relative text-sm text-zinc-400 transition-colors duration-300 cursor-pointer" data-page="calendar">Calendrier</a>
+      <div class="relative group"><span class="nav-link relative text-sm text-zinc-400 transition-colors duration-300 cursor-pointer flex items-center gap-1">Compétition <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M19 9l-7 7-7-7"/></svg></span><div class="absolute top-full left-0 mt-1 bg-zinc-900 border border-zinc-800 rounded-xl py-2 min-w-[170px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 shadow-xl"><a onclick="navigateTo('teams')" class="block px-4 py-2 text-sm text-zinc-400 hover:text-amber-400 hover:bg-zinc-800/50 cursor-pointer transition">Équipes &amp; Groupes</a><a onclick="navigateTo('calendar')" class="block px-4 py-2 text-sm text-zinc-400 hover:text-amber-400 hover:bg-zinc-800/50 cursor-pointer transition">Calendrier</a></div></div>
+
       <a onclick="navigateTo('blog')" class="nav-link relative text-sm text-zinc-400 transition-colors duration-300 cursor-pointer" data-page="blog">Blog</a>
       
     </div>
@@ -244,6 +259,27 @@
     </div>
   </section>
 
+
+  
+  <!-- Résultats & Classements -->
+  <section id="zone-resultats" class="py-8 sm:py-12 px-4 scroll-mt-20">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="text-xl">📊</span>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold font-display">Resultats & Classements</h2>
+          <p class="text-xs text-zinc-500" id="results-subtitle">Mis a jour en temps reel</p>
+        </div>
+      </div>
+      <!-- Tabs: Résultats / Classements -->
+      <div class="flex gap-2 mb-6">
+        <button onclick="showResultTab('scores')" class="result-tab active px-4 py-2 rounded-xl text-sm font-semibold transition" id="tab-scores">Derniers resultats</button>
+        <button onclick="showResultTab('standings')" class="result-tab px-4 py-2 rounded-xl text-sm font-semibold transition" id="tab-standings">Classements groupes</button>
+      </div>
+      <div id="results-scores" class="space-y-3"></div>
+      <div id="results-standings" class="hidden"></div>
+    </div>
+  </section>
 
   <!-- Pronostic du Jour -->
   <section id="prono-du-jour" class="py-10 sm:py-14 px-4 scroll-mt-20">
@@ -883,7 +919,51 @@ try {
   if (typeof supabase !== 'undefined' && supabase.createClient) {
     sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     sbReady = true;
-    console.log('✅ Supabase connecté');
+    console.log('Supabase connecte');
+    
+    // Restore session on page load
+    sb.auth.getSession().then(function(res){
+      if(res.data.session){
+        var user = res.data.session.user;
+        sbGetProfile(user.id).then(function(profile){
+          if(profile){
+            state.user = {
+              id: user.id,
+              username: profile.username,
+              email: user.email,
+              points: profile.virtual_points || 1000,
+              avatar: profile.avatar_url || '',
+              bets: [],
+              supabase: true
+            };
+            saveState(); updateAuthUI(); loadLiveLeaderboard();
+          }
+        });
+      }
+    });
+    
+    // Listen for auth changes (login/logout/token refresh)
+    sb.auth.onAuthStateChange(function(event, session){
+      if(event === 'SIGNED_IN' && session){
+        sbGetProfile(session.user.id).then(function(profile){
+          if(profile){
+            state.user = {
+              id: session.user.id,
+              username: profile.username,
+              email: session.user.email,
+              points: profile.virtual_points || 1000,
+              avatar: profile.avatar_url || '',
+              bets: [],
+              supabase: true
+            };
+            saveState(); updateAuthUI(); loadLiveLeaderboard();
+          }
+        });
+      } else if(event === 'SIGNED_OUT'){
+        state.user = null;
+        saveState(); updateAuthUI();
+      }
+    });
   }
 } catch(e) { console.warn('Supabase non disponible, mode hors-ligne'); }
 
@@ -1347,48 +1427,63 @@ function selectBetChoice(choice){
 }
 
 async function doSignup(){
-  const u=document.getElementById('inp-username').value.trim();
-  const e=document.getElementById('inp-email').value.trim();
-  const p=document.getElementById('inp-pass').value;
-  const pc=document.getElementById('inp-pass-confirm').value;
+  var u=document.getElementById('inp-username').value.trim();
+  var e=document.getElementById('inp-email').value.trim();
+  var p=document.getElementById('inp-pass').value;
+  var pc=document.getElementById('inp-pass-confirm').value;
   if(!u||!e||!p||!pc){alert('Remplis tous les champs');return}
   if(p!==pc){alert('Les mots de passe ne correspondent pas');return}
-  if(p.length<6){alert('Le mot de passe doit contenir au moins 6 caractères');return}
-  if(sbReady){
-    const res=await sbSignup(e,p,u);
-    if(res.error){alert(res.error);return}
-    // Auto-login after signup
-    const login=await sbLogin(e,p);
-    if(login.data?.session){
-      const profile=await sbGetProfile(login.data.session.user.id);
-      state.user={id:login.data.session.user.id,username:profile?.username||u,email:e,points:profile?.virtual_points||1000,bets:[],joined:new Date().toISOString(),supabase:true};
+  if(p.length<6){alert('Le mot de passe doit contenir au moins 6 caracteres');return}
+  if(!sbReady){alert('Connexion au serveur impossible. Recharge la page.');return}
+  try {
+    showToast('Inscription en cours...');
+    // Signup with Supabase
+    var {data,error} = await sb.auth.signUp({
+      email: e,
+      password: p,
+      options: { data: { username: u, full_name: u } }
+    });
+    if(error){alert('Erreur inscription: '+error.message);return}
+    if(!data.user){alert('Erreur: aucun utilisateur cree');return}
+    
+    // Check if email confirmation is needed
+    if(data.session){
+      // Auto-confirmed: get profile
+      var profile = await sbGetProfile(data.session.user.id);
+      state.user={id:data.session.user.id,username:profile?.username||u,email:e,points:profile?.virtual_points||1000,bets:[],predictions:[],joined:new Date().toISOString(),supabase:true};
+      saveState();updateAuthUI();closeModal();
+      showToast('Bienvenue '+u+' ! 1 000 points offerts');
+      loadLiveLeaderboard();
     } else {
-      state.user={username:u,email:e,points:1000,bets:[],joined:new Date().toISOString()};
-      showToast('📧 Vérifie ton email pour confirmer ton compte');
+      // Email confirmation required
+      closeModal();
+      alert('Un email de confirmation a ete envoye a '+e+'. Clique sur le lien pour activer ton compte, puis connecte-toi.');
     }
-  } else {
-    state.user={username:u,email:e,points:1000,bets:[],joined:new Date().toISOString()};
+  } catch(err){
+    console.error('Signup error:', err);
+    alert('Erreur: '+err.message);
   }
-  saveState();updateAuthUI();closeModal();
-  showToast('Bienvenue '+u+' ! 🎉 1 000 points offerts');
-  loadLiveLeaderboard();
 }
 async function doLogin(){
-  const e=document.getElementById('inp-login-email').value.trim();
-  const p=document.getElementById('inp-login-pass').value;
-  if(!e){alert('Entre ton email');return}
-  if(sbReady && p){
-    const res=await sbLogin(e,p);
-    if(res.error){alert(res.error);return}
-    const profile=await sbGetProfile(res.data.session.user.id);
-    const userBets=await sbLoadUserBets(res.data.session.user.id);
-    state.user={id:res.data.session.user.id,username:profile?.username||e.split('@')[0],email:e,points:profile?.virtual_points||1000,total_bets:profile?.total_bets||0,total_wins:profile?.total_wins||0,bets:userBets.map(b=>({marketId:b.market_id,choice:b.option?.label,amount:b.points_wagered,date:b.created_at})),joined:profile?.created_at||new Date().toISOString(),supabase:true};
-  } else {
-    if(!state.user){state.user={username:e.split('@')[0],email:e,points:1000,bets:[],joined:new Date().toISOString()}}
+  var e=document.getElementById('inp-login-email').value.trim();
+  var p=document.getElementById('inp-login-pass').value;
+  if(!e||!p){alert('Remplis tous les champs');return}
+  if(!sbReady){alert('Connexion au serveur impossible. Recharge la page.');return}
+  try {
+    showToast('Connexion...');
+    var {data,error} = await sb.auth.signInWithPassword({email:e, password:p});
+    if(error){alert('Erreur: '+error.message);return}
+    if(!data.session){alert('Connexion echouee');return}
+    var profile = await sbGetProfile(data.session.user.id);
+    state.user={id:data.session.user.id,username:profile?.username||e.split('@')[0],email:e,points:profile?.virtual_points||1000,bets:[],predictions:[],joined:profile?.created_at||new Date().toISOString(),supabase:true};
+    if(profile?.avatar_url) state.user.avatar=profile.avatar_url;
+    saveState();updateAuthUI();closeModal();
+    showToast('Content de te revoir, '+(profile?.username||'')+'!');
+    loadLiveLeaderboard();
+  } catch(err){
+    console.error('Login error:', err);
+    alert('Erreur: '+err.message);
   }
-  saveState();updateAuthUI();closeModal();
-  showToast('Re-bienvenue '+state.user.username+' ! 👋');
-  loadLiveLeaderboard();
 }
 async function doLogout(){
   if(sbReady) await sbLogout();
@@ -2323,6 +2418,115 @@ function onMarketClick(id){
     setInterval(updateTournamentBanner, 1000);
     // Initial call
     setTimeout(updateTournamentBanner, 500);
+
+
+    
+    // ═══ RÉSULTATS & CLASSEMENTS ═══
+    // Match results (update after each match)
+    var matchResults = [
+      {date:'11 Juin',home:'Mexique',away:'Afrique du Sud',scoreH:2,scoreA:0,group:'A',status:'FT'},
+      {date:'12 Juin',home:'Coree du Sud',away:'Tchequie',scoreH:2,scoreA:1,group:'A',status:'FT'},
+      {date:'12 Juin',home:'Canada',away:'Bosnie-Herzegovine',scoreH:null,scoreA:null,group:'B',status:'upcoming'},
+    ];
+
+    function goToResults(){
+      navigateTo('home');
+      setTimeout(function(){var el=document.getElementById('zone-resultats');if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},200);
+    }
+
+    function showResultTab(tab){
+      document.querySelectorAll('.result-tab').forEach(function(b){b.classList.remove('active')});
+      document.getElementById('tab-'+tab).classList.add('active');
+      document.getElementById('results-scores').style.display = tab==='scores'?'block':'none';
+      document.getElementById('results-standings').style.display = tab==='standings'?'block':'none';
+    }
+
+    function computeStandings(){
+      // Build standings from matchResults
+      var teams = {};
+      // Init all teams from groups
+      Object.keys(groups).forEach(function(g){
+        groups[g].forEach(function(t){
+          teams[t.name] = {name:t.name,flag:t.flag,group:g,mj:0,g:0,n:0,p:0,bp:0,bc:0,pts:0};
+        });
+      });
+      // Apply results
+      matchResults.forEach(function(m){
+        if(m.status!=='FT' || m.scoreH===null) return;
+        var h = teams[m.home], a = teams[m.away];
+        if(!h||!a) return;
+        h.mj++; a.mj++;
+        h.bp += m.scoreH; h.bc += m.scoreA;
+        a.bp += m.scoreA; a.bc += m.scoreH;
+        if(m.scoreH > m.scoreA){ h.g++; h.pts+=3; a.p++; }
+        else if(m.scoreH < m.scoreA){ a.g++; a.pts+=3; h.p++; }
+        else { h.n++; a.n++; h.pts++; a.pts++; }
+      });
+      return teams;
+    }
+
+    function renderResults(){
+      var scoresEl = document.getElementById('results-scores');
+      var standEl = document.getElementById('results-standings');
+      if(!scoresEl || !standEl) return;
+
+      // Render scores
+      var played = matchResults.filter(function(m){return m.status==='FT'});
+      if(played.length === 0){
+        scoresEl.innerHTML = '<div class="text-center py-8 text-zinc-500 text-sm">Aucun match termine pour le moment</div>';
+      } else {
+        scoresEl.innerHTML = '<div class="max-w-lg mx-auto space-y-2">' + played.map(function(m){
+          return '<div class="bg-zinc-900/50 border border-zinc-800/60 rounded-xl px-3 py-2.5">'+
+            '<div class="text-[10px] text-zinc-600 mb-1.5">'+m.date+' · Groupe '+m.group+'</div>'+
+            '<div class="flex items-center justify-between">'+
+              '<div class="flex items-center gap-2 flex-1">'+nameToFlag(m.home,18)+' <span class="text-xs sm:text-sm text-zinc-200 font-medium">'+m.home+'</span></div>'+
+              '<div class="flex items-center gap-1.5 mx-3 bg-zinc-800/80 px-3 py-1 rounded-lg"><span class="text-base font-bold text-white font-display">'+m.scoreH+'</span><span class="text-[10px] text-zinc-600">-</span><span class="text-base font-bold text-white font-display">'+m.scoreA+'</span></div>'+
+              '<div class="flex items-center gap-2 flex-1 justify-end"><span class="text-xs sm:text-sm text-zinc-200 font-medium">'+m.away+'</span> '+nameToFlag(m.away,18)+'</div>'+
+            '</div>'+
+          '</div>';
+        }).join('') + '</div>';
+      }
+
+      // Render standings by group
+      var teams = computeStandings();
+      var groupKeys = Object.keys(groups);
+      standEl.innerHTML = '<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">' +
+        groupKeys.map(function(g){
+          var gTeams = groups[g].map(function(t){return teams[t.name]}).filter(Boolean);
+          gTeams.sort(function(a,b){return b.pts-a.pts || (b.bp-b.bc)-(a.bp-a.bc) || b.bp-a.bp});
+          return '<div class="bg-zinc-900/50 border border-zinc-800/60 rounded-xl overflow-hidden">'+
+            '<div class="px-4 py-2.5 border-b border-zinc-800/40 flex items-center gap-2">'+
+              '<span class="w-7 h-7 rounded-lg bg-amber-500/15 border border-amber-500/20 flex items-center justify-center text-xs font-bold text-amber-400">'+g+'</span>'+
+              '<span class="text-sm font-bold text-zinc-200">Groupe '+g+'</span>'+
+            '</div>'+
+            '<table class="standings-table"><thead><tr>'+
+              '<th style="width:30px">#</th><th style="text-align:left;padding-left:8px">Equipe</th>'+
+              '<th>MJ</th><th>G</th><th>N</th><th>P</th><th>BP</th><th>BC</th><th>DB</th><th style="color:#d4af37">Pts</th>'+
+            '</tr></thead><tbody>'+
+            gTeams.map(function(t,i){
+              var db = t.bp - t.bc;
+              var posClass = i<2?'pos-'+(i+1):i===2?'pos-3':'pos-4';
+              return '<tr><td><span class="pos-badge '+posClass+'">'+(i+1)+'</span></td>'+
+                '<td><div class="team-cell">'+codeFlagImg(t.flag,20)+' <span class="text-zinc-200 font-medium text-xs sm:text-sm">'+t.name+'</span></div></td>'+
+                '<td class="text-zinc-400">'+t.mj+'</td>'+
+                '<td class="text-zinc-400">'+t.g+'</td>'+
+                '<td class="text-zinc-400">'+t.n+'</td>'+
+                '<td class="text-zinc-400">'+t.p+'</td>'+
+                '<td class="text-zinc-400">'+t.bp+'</td>'+
+                '<td class="text-zinc-400">'+t.bc+'</td>'+
+                '<td class="'+(db>0?'text-green-400':db<0?'text-red-400':'text-zinc-500')+'">'+(db>0?'+':'')+db+'</td>'+
+                '<td class="text-amber-400 font-bold">'+t.pts+'</td></tr>';
+            }).join('')+
+            '</tbody></table></div>';
+        }).join('') + '</div>';
+
+      // Update subtitle
+      var sub = document.getElementById('results-subtitle');
+      if(sub) sub.textContent = played.length + ' match'+(played.length>1?'s':'')+' joue'+(played.length>1?'s':'')+' sur 104';
+    }
+
+    // Init
+    setTimeout(renderResults, 300);
 
 
     function renderPronoCards(){
