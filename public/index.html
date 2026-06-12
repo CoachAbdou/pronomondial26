@@ -8,6 +8,12 @@
   <meta name="author" content="PronoMondial26"/>
   <meta name="robots" content="index, follow"/>
   <meta name="language" content="fr"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <meta name="theme-color" content="#07070b"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="PronoMondial26"/>
+  <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png"/>
   <link rel="canonical" href="https://www.pronomondial26.com/"/>
   <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website"/>
@@ -1292,7 +1298,13 @@ const leaderboardUsers = [
 // ═══════════════════════════════════════════════════
 // COUNTDOWN
 // ═══════════════════════════════════════════════════
-// Old countdown removed - replaced by live banner
+
+    // ═══ PWA SERVICE WORKER ═══
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/sw.js').catch(function(){});
+    }
+
+    // Old countdown removed - replaced by live banner
     
 
 // ═══════════════════════════════════════════════════
@@ -2527,6 +2539,74 @@ function onMarketClick(id){
 
     // Init
     setTimeout(renderResults, 300);
+
+
+    
+    // ═══ LIVE SCORES FROM SUPABASE ═══
+    var lastScoresFetch = 0;
+    
+    async function fetchLiveScores(){
+      if(!sbReady) return;
+      try {
+        var now = Date.now();
+        if(now - lastScoresFetch < 60000) return;
+        lastScoresFetch = now;
+        
+        var {data, error} = await sb.from('matches')
+          .select('id, team_home_id, team_away_id, score_home, score_away, status, match_date, venue, city, group_letter')
+          .not('score_home', 'is', null)
+          .order('match_date', {ascending: true});
+        
+        if(error || !data) return;
+        
+        // Also get team names
+        var {data: teams} = await sb.from('teams').select('id, name');
+        if(!teams) return;
+        var teamById = {};
+        teams.forEach(function(t){ teamById[t.id] = t.name; });
+        
+        var months = ['Jan','Fev','Mar','Avr','Mai','Juin','Juil','Aout','Sep','Oct','Nov','Dec'];
+        
+        // Update matchResults
+        data.forEach(function(m){
+          var home = teamById[m.team_home_id] || '?';
+          var away = teamById[m.team_away_id] || '?';
+          var md = new Date(m.match_date);
+          var dateStr = md.getDate() + ' ' + months[md.getMonth()];
+          var st = m.status === 'finished' ? 'FT' : m.status === 'live' ? 'live' : 'upcoming';
+          
+          var existing = matchResults.find(function(r){
+            return r.home === home && r.away === away;
+          });
+          
+          if(existing){
+            existing.scoreH = m.score_home;
+            existing.scoreA = m.score_away;
+            existing.status = st;
+          } else {
+            matchResults.push({
+              date: dateStr,
+              home: home,
+              away: away,
+              scoreH: m.score_home,
+              scoreA: m.score_away,
+              group: m.group_letter || '?',
+              status: st,
+              venue: (m.venue||'') + (m.city ? ', '+m.city : '')
+            });
+          }
+        });
+        
+        renderResults();
+        updateTournamentBanner();
+      } catch(e){
+        console.log('Scores update error:', e.message);
+      }
+    }
+    
+    // Fetch every 2 min
+    setInterval(fetchLiveScores, 120000);
+    setTimeout(fetchLiveScores, 2000);
 
 
     function renderPronoCards(){
