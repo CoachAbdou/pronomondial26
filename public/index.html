@@ -1758,61 +1758,35 @@ function renderPredMatches(){
 
 async function submitPrediction(matchId, matchKey, date){
   if(!state.user){openModal('signup');return}
+  if(!sbReady){alert('Connexion serveur impossible');return}
   var h=parseInt(document.getElementById(matchId+'-h').value)||0;
   var a=parseInt(document.getElementById(matchId+'-a').value)||0;
   var pts=parseInt(document.getElementById(matchId+'-pts').value)||20;
   if(pts<10){alert('Mise minimum: 10 pts');return}
   if(pts>state.user.points){alert('Points insuffisants');return}
   
-  // Save to Supabase if connected
-  if(sbReady && state.user.id){
-    try {
-      // Find match_id in DB (use matchId index)
-      var dbMatchId = parseInt(matchId.replace('match-','')) + 1;
-      
-      // Check if prediction already exists
-      var {data:existing} = await sb.from('predictions').select('id').eq('user_id', state.user.id).eq('match_id', dbMatchId).maybeSingle();
-      
-      if(existing){
-        // Update existing prediction
-        var {error} = await sb.from('predictions').update({
-          predicted_home_score: h,
-          predicted_away_score: a,
-          points_wagered: pts
-        }).eq('id', existing.id);
-        if(error){console.error('Update error:', error); alert('Erreur: '+error.message); return}
-      } else {
-        // Insert new prediction
-        var {error} = await sb.from('predictions').insert({
-          user_id: state.user.id,
-          match_id: dbMatchId,
-          predicted_home_score: h,
-          predicted_away_score: a,
-          points_wagered: pts
-        });
-        if(error){console.error('Insert error:', error); alert('Erreur: '+error.message); return}
-      }
-      
-      // Deduct points in Supabase
-      var newPts = state.user.points - pts;
-      await sb.from('profiles').update({virtual_points: newPts}).eq('id', state.user.id);
-      state.user.points = newPts;
-      
-    } catch(e){
-      console.error('Prediction save error:', e);
-      alert('Erreur de sauvegarde. Verifie ta connexion.');
-      return;
-    }
-  } else {
-    // Fallback: save locally only
-    state.user.points -= pts;
+  var teamNames = matchKey.split(',');
+  var homeName = (teamNames[0]||'').trim();
+  var awayName = (teamNames[1]||'').trim();
+  
+  try {
+    var {data,error} = await sb.rpc('submit_prediction', {
+      p_home_name: homeName,
+      p_away_name: awayName,
+      p_predicted_home: h,
+      p_predicted_away: a,
+      p_points: pts
+    });
+    
+    if(error){alert('Erreur: '+error.message);return}
+    if(data && data.error){alert('Erreur: '+data.error);return}
+    
+    state.user.points = data.points_remaining;
+    saveState();updateAuthUI();renderPredMatches();
+    showToast('Pronostic enregistre: '+h+' - '+a+' ('+pts+' pts)');
+  } catch(e){
+    alert('Erreur: '+e.message);
   }
-  
-  if(!state.user.predictions) state.user.predictions=[];
-  state.user.predictions.push({matchKey,homeScore:h,awayScore:a,points:pts,date:new Date().toISOString()});
-  
-  saveState();updateAuthUI();renderPredMatches();
-  showToast('Pronostic enregistre: '+h+' - '+a+' ('+pts+' pts)');
 }
 
 function renderPredictions(){
