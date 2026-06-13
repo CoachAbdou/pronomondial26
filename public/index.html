@@ -1628,13 +1628,34 @@ function getPredDates(){
 
 let currentPredDate = null;
 
+function parsePredDate(d){
+  var parts=d.split(' ');
+  var day=parseInt(parts[0]);
+  var months={'Jan':0,'Fev':1,'Mar':2,'Avr':3,'Mai':4,'Juin':5,'Juil':6,'Aout':7,'Sep':8,'Oct':9,'Nov':10,'Dec':11};
+  var mon=months[parts[1]]||5;
+  return new Date(2026,mon,day);
+}
+
 function renderPredDateTabs(){
-  const dates = getPredDates();
-  if(!currentPredDate && dates.length) currentPredDate = dates[0];
-  const container = document.getElementById('pred-date-tabs');
+  var dates = getPredDates();
+  var today = new Date();
+  today.setHours(0,0,0,0);
+  
+  // Auto-select today or next available date
+  if(!currentPredDate || parsePredDate(currentPredDate) < today){
+    var found = dates.find(function(d){return parsePredDate(d) >= today});
+    currentPredDate = found || dates[dates.length-1];
+  }
+  
+  var container = document.getElementById('pred-date-tabs');
   if(!container) return;
-  container.innerHTML = dates.map(d => {
-    const active = d === currentPredDate;
+  container.innerHTML = dates.map(function(d){
+    var active = d === currentPredDate;
+    var dateObj = parsePredDate(d);
+    var isPast = dateObj < today;
+    if(isPast){
+      return '<span class="tab-btn shrink-0 text-xs px-4 py-2 rounded-full border border-zinc-800 text-zinc-700 cursor-not-allowed opacity-40 line-through">'+d+'</span>';
+    }
     return '<button onclick="selectPredDate(\''+d.replace("'","\\'")+'\')" class="tab-btn shrink-0 text-xs px-4 py-2 rounded-full border transition-all '+(active?'border-amber-500 text-amber-400 bg-amber-500/10 active':'border-zinc-700 text-zinc-400 hover:border-zinc-500')+'">'+d+'</button>';
   }).join('');
 }
