@@ -10,6 +10,8 @@
   <meta name="language" content="fr"/>
   <link rel="manifest" href="/manifest.json"/>
   <meta name="theme-color" content="#07070b"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="PronoMondial26"/>
@@ -186,13 +188,20 @@
     </button>
   </div>
   <div id="mobile-menu" class="md:hidden hidden absolute top-full left-0 right-0 bg-[#0a0a10]/95 glass border-b border-zinc-800/50 px-4 py-4 space-y-1">
+    <a onclick="scrollToProno();toggleMobile()" class="flex items-center gap-2 text-sm text-amber-400 font-semibold py-2 cursor-pointer">🔥 Pronostics du jour</a>
+    <a onclick="goToResults();toggleMobile()" class="flex items-center gap-2 text-sm text-amber-400 font-semibold py-2 cursor-pointer">📊 Resultats & Classements</a>
+    <div class="border-t border-zinc-800/40 my-1"></div>
     <a onclick="navigateTo('home');toggleMobile()" class="block text-sm text-zinc-400 hover:text-white py-2 cursor-pointer">Accueil</a>
-    <a onclick="navigateTo('markets');toggleMobile()" class="block text-sm text-zinc-400 hover:text-white py-2 cursor-pointer">Marchés</a>
-    <a onclick="navigateTo('predictions');toggleMobile()" class="block text-sm text-zinc-400 hover:text-white py-2 cursor-pointer">Prédictions</a>
+    <a onclick="navigateTo('markets');toggleMobile()" class="block text-sm text-zinc-400 hover:text-white py-2 cursor-pointer">Marches</a>
+    <a onclick="navigateTo('predictions');toggleMobile()" class="block text-sm text-zinc-400 hover:text-white py-2 cursor-pointer">Predictions</a>
     <a onclick="navigateTo('leaderboard');toggleMobile()" class="block text-sm text-zinc-400 hover:text-white py-2 cursor-pointer">Classement</a>
-    <a onclick="navigateTo('teams');toggleMobile()" class="block text-sm text-zinc-400 hover:text-white py-2 cursor-pointer">Équipes</a>
-    <a onclick="navigateTo('calendar');toggleMobile()" class="block text-sm text-zinc-400 hover:text-white py-2 cursor-pointer">Calendrier</a>
+    <div class="border-t border-zinc-800/40 my-1"></div>
+    <p class="text-[10px] text-zinc-600 uppercase tracking-wider pt-1">Competition</p>
+    <a onclick="navigateTo('teams');toggleMobile()" class="block text-sm text-zinc-400 hover:text-white py-2 pl-3 cursor-pointer">Equipes & Groupes</a>
+    <a onclick="navigateTo('calendar');toggleMobile()" class="block text-sm text-zinc-400 hover:text-white py-2 pl-3 cursor-pointer">Calendrier</a>
+    <div class="border-t border-zinc-800/40 my-1"></div>
     <a onclick="navigateTo('blog');toggleMobile()" class="block text-sm text-zinc-400 hover:text-white py-2 cursor-pointer">Blog</a>
+    <a onclick="navigateTo('admin');loadAdminMatches();toggleMobile()" class="admin-link block text-sm text-red-400 font-semibold py-2 cursor-pointer" style="display:none">Admin</a>
     <div id="mobile-auth" class="flex gap-2 pt-2">
       <button onclick="openModal('login');toggleMobile()" class="flex-1 text-sm text-zinc-400 border border-zinc-700 py-2 rounded-xl">Connexion</button>
       <button onclick="openModal('signup');toggleMobile()" class="flex-1 text-sm font-semibold bg-amber-500 text-black py-2 rounded-xl">Rejoindre</button>
@@ -1337,7 +1346,13 @@ const leaderboardUsers = [
 
     // ═══ PWA SERVICE WORKER ═══
     if('serviceWorker' in navigator){
-      navigator.serviceWorker.register('/sw.js').catch(function(){});
+      navigator.serviceWorker.register('/sw.js').then(function(reg){
+        reg.update();
+      }).catch(function(){});
+      // Clear old caches on load
+      if(window.caches) caches.keys().then(function(names){
+        names.forEach(function(n){if(n!=='pronomondial26-v5') caches.delete(n)});
+      });
     }
 
     // Old countdown removed - replaced by live banner
@@ -1733,7 +1748,7 @@ function renderPredMatches(){
               '<div class="text-center"><span class="text-[10px] text-zinc-500 block mb-1">'+m.away.substring(0,8)+'</span><input type="number" min="0" max="15" value="0" id="'+matchId+'-a" class="w-14 h-12 bg-zinc-800 border border-zinc-700 rounded-xl text-center text-xl font-bold text-white focus:border-amber-500 transition"/></div>'+
               '<div class="ml-4"><span class="text-[10px] text-zinc-500 block mb-1">Mise (pts)</span><input type="number" min="10" max="'+(state.user?.points||0)+'" step="10" value="20" id="'+matchId+'-pts" class="w-20 h-12 bg-zinc-800 border border-zinc-700 rounded-xl text-center text-sm font-bold text-amber-400 focus:border-amber-500 transition"/></div>'+
             '</div>'+
-            '<button onclick="submitPrediction(\''+matchId+'\',\''+m.home.replace(/'/g,'\\\'')+m.away.replace(/'/g,'\\\'')+'\',\''+m.date.replace(/'/g,'\\\'')+'\')" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-xl transition-all text-sm '+(isFinished||!state.user?'opacity-50 cursor-not-allowed':'')+'">'+(isFinished?'Match terminé'+(finalScore?' : '+finalScore.scoreH+' - '+finalScore.scoreA:''):state.user?'Valider mon pronostic':'Connecte-toi pour prédire')+'</button>'+
+            '<button onclick="submitPrediction(\''+matchId+'\',\''+m.home+','+m.away+'\',\''+m.date+'\') " class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-xl transition-all text-sm '+(isFinished||!state.user?'opacity-50 cursor-not-allowed':'')+'">'+(isFinished?'Match termine'+(finalScore?' : '+finalScore.scoreH+' - '+finalScore.scoreA:''):state.user?'Valider mon pronostic':'Connecte-toi pour predire')+'</button>'+
           '</div>'
         )+
       '</div>'+
