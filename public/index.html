@@ -1197,7 +1197,7 @@ const groups = {
   D: [{flag:'us',name:'États-Unis',rank:11},{flag:'py',name:'Paraguay',rank:42},{flag:'au',name:'Australie',rank:20},{flag:'tr',name:'Turquie',rank:26}],
   E: [{flag:'de',name:'Allemagne',rank:6},{flag:'cw',name:'Curaçao',rank:85},{flag:'ci',name:"Côte d'Ivoire",rank:38},{flag:'ec',name:'Équateur',rank:23}],
   F: [{flag:'nl',name:'Pays-Bas',rank:8},{flag:'jp',name:'Japon',rank:13},{flag:'tn',name:'Tunisie',rank:35},{flag:'se',name:'Suède',rank:30}],
-  G: [{flag:'be',name:'Belgique',rank:16},{flag:'eg',name:'Égypte',rank:33},{flag:'ir',name:'Iran',rank:28},{flag:'nz',name:'Nlle-Zélande',rank:95}],
+  G: [{flag:'be',name:'Belgique',rank:16},{flag:'eg',name:'Égypte',rank:33},{flag:'ir',name:'Iran',rank:28},{flag:'nz',name:'Nouvelle-Zélande',rank:95}],
   H: [{flag:'es',name:'Espagne',rank:5},{flag:'cv',name:'Cap-Vert',rank:62},{flag:'sa',name:'Arabie Saoudite',rank:56},{flag:'uy',name:'Uruguay',rank:10}],
   I: [{flag:'fr',name:'France',rank:2},{flag:'sn',name:'Sénégal',rank:24},{flag:'no',name:'Norvège',rank:48},{flag:'iq',name:'Irak',rank:55}],
   J: [{flag:'ar',name:'Argentine',rank:1},{flag:'dz',name:'Algérie',rank:32},{flag:'at',name:'Autriche',rank:27},{flag:'jo',name:'Jordanie',rank:64}],
@@ -1221,7 +1221,7 @@ const groups = {
   {stage:'group',date:'15 Juin',time:'19:00',home:'Espagne',away:'Cap-Vert',venue:'Mercedes-Benz, Atlanta'},
   {stage:'group',date:'15 Juin',time:'22:00',home:'Belgique',away:'Égypte',venue:'Lumen Field, Seattle'},
   {stage:'group',date:'16 Juin',time:'01:00',home:'Arabie Saoudite',away:'Uruguay',venue:'Hard Rock Stadium, Miami'},
-  {stage:'group',date:'16 Juin',time:'04:00',home:'Iran',away:'Nlle-Zélande',venue:'SoFi Stadium, Inglewood'},
+  {stage:'group',date:'16 Juin',time:'04:00',home:'Iran',away:'Nouvelle-Zélande',venue:'SoFi Stadium, Inglewood'},
   {stage:'group',date:'16 Juin',time:'22:00',home:'France',away:'Sénégal',venue:'MetLife Stadium, East Rutherford'},
   {stage:'group',date:'17 Juin',time:'01:00',home:'Irak',away:'Norvège',venue:'Gillette Stadium, Foxborough'},
   {stage:'group',date:'17 Juin',time:'04:00',home:'Argentine',away:'Algérie',venue:'Arrowhead Stadium, Kansas City'},
@@ -1245,7 +1245,7 @@ const groups = {
   {stage:'group',date:'21 Juin',time:'19:00',home:'Espagne',away:'Arabie Saoudite',venue:'Mercedes-Benz, Atlanta'},
   {stage:'group',date:'21 Juin',time:'22:00',home:'Belgique',away:'Iran',venue:'SoFi Stadium, Inglewood'},
   {stage:'group',date:'22 Juin',time:'01:00',home:'Uruguay',away:'Cap-Vert',venue:'Hard Rock Stadium, Miami'},
-  {stage:'group',date:'22 Juin',time:'04:00',home:'Nlle-Zélande',away:'Égypte',venue:'BC Place, Vancouver'},
+  {stage:'group',date:'22 Juin',time:'04:00',home:'Nouvelle-Zélande',away:'Égypte',venue:'BC Place, Vancouver'},
   {stage:'group',date:'22 Juin',time:'20:00',home:'Argentine',away:'Autriche',venue:'AT&T Stadium, Arlington'},
   {stage:'group',date:'23 Juin',time:'00:00',home:'France',away:'Irak',venue:'Lincoln Financial, Philadelphie'},
   {stage:'group',date:'23 Juin',time:'03:00',home:'Norvège',away:'Sénégal',venue:'MetLife Stadium, East Rutherford'},
@@ -1271,7 +1271,7 @@ const groups = {
   {stage:'group',date:'27 Juin',time:'03:00',home:'Uruguay',away:'Espagne',venue:'Stade Akron, Guadalajara'},
   {stage:'group',date:'27 Juin',time:'03:00',home:'Cap-Vert',away:'Arabie Saoudite',venue:'NRG Stadium, Houston'},
   {stage:'group',date:'27 Juin',time:'06:00',home:'Égypte',away:'Iran',venue:'Lumen Field, Seattle'},
-  {stage:'group',date:'27 Juin',time:'06:00',home:'Nlle-Zélande',away:'Belgique',venue:'BC Place, Vancouver'},
+  {stage:'group',date:'27 Juin',time:'06:00',home:'Nouvelle-Zélande',away:'Belgique',venue:'BC Place, Vancouver'},
   {stage:'group',date:'28 Juin',time:'00:00',home:'Panama',away:'Angleterre',venue:'MetLife Stadium'},
   {stage:'group',date:'28 Juin',time:'00:00',home:'Croatie',away:'Ghana',venue:'Lincoln Financial, Philadelphie'},
   {stage:'group',date:'28 Juin',time:'02:30',home:'Colombie',away:'Portugal',venue:'Hard Rock Stadium, Miami'},
@@ -1867,7 +1867,7 @@ function onMarketClick(id){
       'États-Unis':'us','Paraguay':'py','Australie':'au','Turquie':'tr',
       'Allemagne':'de','Curaçao':'cw','Côte d\'Ivoire':'ci','Équateur':'ec',
       'Pays-Bas':'nl','Japon':'jp','Tunisie':'tn','Suède':'se',
-      'Belgique':'be','Égypte':'eg','Iran':'ir','Nouvelle-Zélande':'nz','Nlle-Zélande':'nz',
+      'Belgique':'be','Égypte':'eg','Iran':'ir','Nouvelle-Zélande':'nz','Nouvelle-Zélande':'nz',
       'Espagne':'es','Cap-Vert':'cv','Arabie Saoudite':'sa','Arabie':'sa','Uruguay':'uy',
       'France':'fr','Sénégal':'sn','Norvège':'no','Irak':'iq',
       'Argentine':'ar','Algérie':'dz','Autriche':'at','Jordanie':'jo',
@@ -1875,7 +1875,7 @@ function onMarketClick(id){
       'Angleterre':'gb-eng','Croatie':'hr','Ghana':'gh','Panama':'pa',
       'AFR. DU SUD':'za','BRÉSIL':'br','MAROC':'ma','FRANCE':'fr','SÉNÉGAL':'sn',
       'ARGENTINE':'ar','ALGÉRIE':'dz','MEXIQUE':'mx','AFRIQUE DU SUD':'za',
-      'Nlle':'nz','du':'za','Football':'un','Monde':'un','Joueur':'un'
+      'Nouvelle':'nz','du':'za','Football':'un','Monde':'un','Joueur':'un'
     };
 
     function codeFlagImg(code, size) {
