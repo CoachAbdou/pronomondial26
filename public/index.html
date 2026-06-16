@@ -2515,19 +2515,22 @@ function onMarketClick(id){
       document.getElementById('results-standings').style.display = tab==='standings'?'block':'none';
     }
 
+    function normN(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
+    
     function computeStandings(){
-      // Build standings from matchResults
       var teams = {};
-      // Init all teams from groups
+      var normMap = {}; // normalized name -> original name
       Object.keys(groups).forEach(function(g){
         groups[g].forEach(function(t){
           teams[t.name] = {name:t.name,flag:t.flag,group:g,mj:0,g:0,n:0,p:0,bp:0,bc:0,pts:0};
+          normMap[normN(t.name)] = t.name;
         });
       });
-      // Apply results
       matchResults.forEach(function(m){
         if(m.status!=='FT' || m.scoreH===null) return;
-        var h = teams[m.home], a = teams[m.away];
+        var hKey = normMap[normN(m.home)] || m.home;
+        var aKey = normMap[normN(m.away)] || m.away;
+        var h = teams[hKey], a = teams[aKey];
         if(!h||!a) return;
         h.mj++; a.mj++;
         h.bp += m.scoreH; h.bc += m.scoreA;
@@ -2824,9 +2827,11 @@ function onMarketClick(id){
       
       showToast('Score sauvegarde !');
       
-      // Refresh live scores
+      // Force immediate refresh of everything
       lastScoresFetch = 0;
-      fetchLiveScores();
+      await fetchLiveScores();
+      renderResults();
+      renderPredMatches();
     }
     
     function adminQuickSave(matchId){
