@@ -2542,7 +2542,7 @@ function onMarketClick(id){
       return teams;
     }
 
-    function renderResults(){
+    async function renderResults(){
       var scoresEl = document.getElementById('results-scores');
       var standEl = document.getElementById('results-standings');
       if(!scoresEl || !standEl) return;
@@ -2564,13 +2564,19 @@ function onMarketClick(id){
         }).join('') + '</div>';
       }
 
-      // Render standings by group
-      var teams = computeStandings();
-      var groupKeys = Object.keys(groups);
-      standEl.innerHTML = '<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">' +
-        groupKeys.map(function(g){
-          var gTeams = groups[g].map(function(t){return teams[t.name]}).filter(Boolean);
-          gTeams.sort(function(a,b){return b.pts-a.pts || (b.bp-b.bc)-(a.bp-a.bc) || b.bp-a.bp});
+      // Render standings from Supabase view
+      if(sbReady){
+        var {data:standingsData} = await sb.from('group_standings').select('*');
+        if(standingsData && standingsData.length > 0){
+          var groupKeys = Object.keys(groups);
+          var standingsByGroup = {};
+          standingsData.forEach(function(s){
+            if(!standingsByGroup[s.group_letter]) standingsByGroup[s.group_letter]=[];
+            standingsByGroup[s.group_letter].push(s);
+          });
+          standEl.innerHTML = '<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">' +
+            groupKeys.map(function(g){
+              var gTeams = standingsByGroup[g] || [];
           return '<div class="bg-zinc-900/50 border border-zinc-800/60 rounded-xl overflow-hidden">'+
             '<div class="px-4 py-2.5 border-b border-zinc-800/40 flex items-center gap-2">'+
               '<span class="w-7 h-7 rounded-lg bg-amber-500/15 border border-amber-500/20 flex items-center justify-center text-xs font-bold text-amber-400">'+g+'</span>'+
@@ -2581,21 +2587,22 @@ function onMarketClick(id){
               '<th>MJ</th><th>G</th><th>N</th><th>P</th><th>BP</th><th>BC</th><th>DB</th><th style="color:#d4af37">Pts</th>'+
             '</tr></thead><tbody>'+
             gTeams.map(function(t,i){
-              var db = t.bp - t.bc;
               var posClass = i<2?'pos-'+(i+1):i===2?'pos-3':'pos-4';
               return '<tr><td><span class="pos-badge '+posClass+'">'+(i+1)+'</span></td>'+
-                '<td><div class="team-cell">'+codeFlagImg(t.flag,20)+' <span class="text-zinc-200 font-medium text-xs sm:text-sm">'+t.name+'</span></div></td>'+
+                '<td><div class="team-cell">'+codeFlagImg(t.flag.toLowerCase(),20)+' <span class="text-zinc-200 font-medium text-xs sm:text-sm">'+t.name+'</span></div></td>'+
                 '<td class="text-zinc-400">'+t.mj+'</td>'+
                 '<td class="text-zinc-400">'+t.g+'</td>'+
                 '<td class="text-zinc-400">'+t.n+'</td>'+
                 '<td class="text-zinc-400">'+t.p+'</td>'+
                 '<td class="text-zinc-400">'+t.bp+'</td>'+
                 '<td class="text-zinc-400">'+t.bc+'</td>'+
-                '<td class="'+(db>0?'text-green-400':db<0?'text-red-400':'text-zinc-500')+'">'+(db>0?'+':'')+db+'</td>'+
+                '<td class="'+(t.db>0?'text-green-400':t.db<0?'text-red-400':'text-zinc-500')+'">'+(t.db>0?'+':'')+t.db+'</td>'+
                 '<td class="text-amber-400 font-bold">'+t.pts+'</td></tr>';
             }).join('')+
             '</tbody></table></div>';
-        }).join('') + '</div>';
+          }).join('') + '</div>';
+        }
+      }
 
       // Update subtitle
       var sub = document.getElementById('results-subtitle');
