@@ -898,6 +898,9 @@
         <button onclick="adminFilterStatus('upcoming')" class="admin-filter px-3 py-1.5 rounded-lg text-xs font-semibold" id="af-upcoming">A venir</button>
         <button onclick="adminFilterStatus('live')" class="admin-filter px-3 py-1.5 rounded-lg text-xs font-semibold" id="af-live">En cours</button>
         <button onclick="adminFilterStatus('finished')" class="admin-filter px-3 py-1.5 rounded-lg text-xs font-semibold" id="af-finished">Termines</button>
+        <span class="mx-1 text-zinc-700">|</span>
+        <button onclick="adminFilterStatus('group')" class="admin-filter px-3 py-1.5 rounded-lg text-xs font-semibold" id="af-group">Groupes</button>
+        <button onclick="adminFilterStatus('knockout')" class="admin-filter px-3 py-1.5 rounded-lg text-xs font-semibold" id="af-knockout">Eliminatoires</button>
       </div>
       <div id="admin-matches" class="space-y-2"></div>
       <div class="mt-6 p-4 bg-zinc-900/50 border border-zinc-800/60 rounded-xl">
@@ -2715,7 +2718,7 @@ function onMarketClick(id){
     async function loadAdminMatches(){
       if(!sbReady || !isAdmin()) return;
       var {data,error} = await sb.from('matches')
-        .select('id, team_home_id, team_away_id, score_home, score_away, status, match_date, matchday, group_letter, venue, city')
+        .select('id, team_home_id, team_away_id, score_home, score_away, status, match_date, matchday, group_letter, venue, city, stage, knockout_label')
         .order('match_date', {ascending:true});
       if(error||!data) return;
       
@@ -2727,13 +2730,15 @@ function onMarketClick(id){
       adminMatches = data.map(function(m){
         return {
           id:m.id,
-          home:byId[m.team_home_id]||'?',
-          away:byId[m.team_away_id]||'?',
+          home:m.team_home_id?byId[m.team_home_id]:null,
+          away:m.team_away_id?byId[m.team_away_id]:null,
           scoreH:m.score_home,
           scoreA:m.score_away,
           status:m.status||'upcoming',
           date:m.match_date,
-          group:m.group_letter||'?',
+          group:m.group_letter||'',
+          stage:m.stage||'group',
+          label:m.knockout_label||'',
           venue:(m.venue||'')+(m.city?', '+m.city:'')
         };
       });
@@ -2751,7 +2756,10 @@ function onMarketClick(id){
       var c = document.getElementById('admin-matches');
       if(!c) return;
       
-      var filtered = adminFilter==='all' ? adminMatches : adminMatches.filter(function(m){return m.status===adminFilter});
+      var filtered = adminFilter==='all' ? adminMatches : 
+        adminFilter==='group' ? adminMatches.filter(function(m){return m.stage==='group'}) :
+        adminFilter==='knockout' ? adminMatches.filter(function(m){return m.stage!=='group'}) :
+        adminMatches.filter(function(m){return m.status===adminFilter});
       
       if(!filtered.length){
         c.innerHTML = '<div class="text-center py-8 text-zinc-500 text-sm">Aucun match dans cette categorie</div>';
@@ -2765,13 +2773,20 @@ function onMarketClick(id){
         var stLabel = m.status==='finished'?'Termine':m.status==='live'?'En cours':'A venir';
         var sh = m.scoreH !== null ? m.scoreH : '';
         var sa = m.scoreA !== null ? m.scoreA : '';
+        var isKnockout = m.stage && m.stage !== 'group';
+        var stageLabels = {round_of_32:'32e',round_of_16:'16e',quarter_final:'Quart',semi_final:'Demi',third_place:'3e place',final:'FINALE'};
+        var stageBadge = isKnockout ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">'+(stageLabels[m.stage]||m.stage)+'</span>' : '<span class="text-[10px] text-zinc-600 w-14">Gr.'+m.group+'</span>';
+        var homeName = m.home || (m.label ? m.label.split(' vs ')[0] : 'A determiner');
+        var awayName = m.away || (m.label ? m.label.split(' vs ')[1] : 'A determiner');
+        var homeFlag = m.home ? nameToFlag(m.home,18) : '';
+        var awayFlag = m.away ? nameToFlag(m.away,18) : '';
         
-        return '<div class="admin-card bg-zinc-900/50 border border-zinc-800/60 rounded-xl px-4 py-3">'+
+        return '<div class="admin-card bg-zinc-900/50 border border-zinc-800/60 rounded-xl px-4 py-3'+(isKnockout?' border-l-2 border-l-amber-500/30':'')+'">'+
           '<div class="flex items-center justify-between flex-wrap gap-2">'+
             '<div class="flex items-center gap-2 min-w-[200px]">'+
-              '<span class="text-[10px] text-zinc-600 w-14">Gr.'+m.group+'</span>'+
-              nameToFlag(m.home,18)+
-              '<span class="text-sm text-zinc-200 font-medium">'+m.home+'</span>'+
+              stageBadge+
+              homeFlag+
+              '<span class="text-sm '+(m.home?'text-zinc-200 font-medium':'text-zinc-500 italic')+'">'+homeName+'</span>'+
             '</div>'+
             '<div class="flex items-center gap-2">'+
               '<input type="number" min="0" max="20" value="'+sh+'" class="admin-input" id="adm-h-'+m.id+'"/>'+
@@ -2779,8 +2794,8 @@ function onMarketClick(id){
               '<input type="number" min="0" max="20" value="'+sa+'" class="admin-input" id="adm-a-'+m.id+'"/>'+
             '</div>'+
             '<div class="flex items-center gap-2 min-w-[200px] justify-end">'+
-              '<span class="text-sm text-zinc-200 font-medium">'+m.away+'</span>'+
-              nameToFlag(m.away,18)+
+              '<span class="text-sm '+(m.away?'text-zinc-200 font-medium':'text-zinc-500 italic')+'">'+awayName+'</span>'+
+              awayFlag+
             '</div>'+
             '<div class="flex items-center gap-2">'+
               '<select id="adm-st-'+m.id+'" class="bg-zinc-800 border border-zinc-700 rounded-lg px-2 py-1.5 text-xs text-zinc-300" onchange="adminQuickSave('+m.id+')">'+
